@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAdminOrders, updateOrderStatusThunk } from '../redux/orderSlice';
-import { RefreshCw, CheckCircle, Clock, ChefHat, PackageCheck, AlertCircle, Phone, MapPin, IndianRupee } from 'lucide-react';
+import { RefreshCw, CheckCircle, Clock, ChefHat, PackageCheck, AlertCircle, Phone, MapPin, IndianRupee, Download, HardDrive, Settings, Printer } from 'lucide-react';
 
 export default function AdminDashboard() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.order.adminOrders);
   const [filterStatus, setFilterStatus] = useState('All');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [systemId, setSystemId] = useState(localStorage.getItem('pizza_house_system_id') || 'System-1');
 
   useEffect(() => {
     dispatch(fetchAdminOrders());
@@ -17,6 +18,12 @@ export default function AdminDashboard() {
     }, 8000);
     return () => clearInterval(interval);
   }, [dispatch]);
+
+  const handleSystemIdChange = (e) => {
+    const val = e.target.value;
+    setSystemId(val);
+    localStorage.setItem('pizza_house_system_id', val);
+  };
 
   const handleManualRefresh = async () => {
     setIsRefreshing(true);
@@ -31,10 +38,54 @@ export default function AdminDashboard() {
     }));
   };
 
+  // Download System Sales & Order Data as JSON
+  const handleDownloadSystemDataJSON = () => {
+    const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
+    const exportData = {
+      systemId,
+      exportedAt: new Date().toISOString(),
+      totalLocalSavedOrders: systemOrders.length,
+      allLiveOrdersCount: orders.length,
+      localSystemOrders: systemOrders,
+      allOrders: orders
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `PizzaHouse_SalesData_${systemId}_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Download System Sales Data as CSV
+  const handleDownloadSystemDataCSV = () => {
+    const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
+    const dataToExport = systemOrders.length > 0 ? systemOrders : orders;
+
+    let csvContent = "OrderNumber,Date,CustomerName,Phone,TableOrAddress,OrderType,PaymentStatus,PaymentMethod,TotalAmount\n";
+    dataToExport.forEach(o => {
+      csvContent += `"${o.orderNumber}","${new Date(o.createdAt || o.savedAt || Date.now()).toLocaleString()}","${o.customer?.name || ''}","${o.customer?.phone || ''}","${o.customer?.tableOrAddress || ''}","${o.customer?.orderType || ''}","${o.paymentStatus || ''}","${o.paymentDetails?.paymentMethod || ''}",${o.totalAmount}\n`;
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `PizzaHouse_SalesReport_${systemId}_${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   // Metrics
   const totalOrders = orders.length;
   const totalRevenue = orders
-    .filter(o => o.paymentStatus === 'Paid')
+    .filter(o => o.paymentStatus === 'Paid' || o.paymentStatus === 'Cash')
     .reduce((sum, o) => sum + (o.totalAmount || 0), 0);
   const pendingCount = orders.filter(o => o.orderStatus === 'Received' || o.orderStatus === 'Preparing').length;
   const readyCount = orders.filter(o => o.orderStatus === 'Ready').length;
@@ -58,194 +109,215 @@ export default function AdminDashboard() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
       
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-3xl font-black text-slate-900">Admin Orders</h2>
-          <p className="text-sm text-slate-500 font-medium mt-1">Live order tracking & kitchen workflow manager • Call: <strong className="text-rose-600 font-bold">7559752165</strong></p>
+          <div className="flex items-center space-x-2">
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Admin Kitchen POS</h1>
+            <span className="bg-rose-100 text-rose-700 text-xs font-black px-2.5 py-0.5 rounded-md border border-rose-200">
+              Live Order Stream
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 font-medium mt-1">
+            Real-time Petpooja kitchen display system & sales manager • Phone: 7559752165
+          </p>
         </div>
 
-        <button
-          onClick={handleManualRefresh}
-          className="flex items-center space-x-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 px-4 py-2.5 rounded-xl font-bold text-sm shadow-xs transition-all w-fit"
-        >
-          <RefreshCw className={`w-4 h-4 text-rose-600 ${isRefreshing ? 'animate-spin' : ''}`} />
-          <span>Refresh Live Queue</span>
-        </button>
+        {/* Action Controls */}
+        <div className="flex flex-wrap items-center gap-2">
+          
+          {/* System ID Isolated Configuration */}
+          <div className="flex items-center space-x-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-2xs">
+            <HardDrive className="w-4 h-4 text-slate-500" />
+            <span className="text-xs font-bold text-slate-600">Device ID:</span>
+            <input
+              type="text"
+              value={systemId}
+              onChange={handleSystemIdChange}
+              placeholder="e.g. System-1"
+              className="w-24 text-xs font-black text-slate-900 bg-slate-100 px-2 py-1 rounded-lg border border-slate-200 outline-none"
+              title="Change this system ID to keep isolated local data per device/counter"
+            />
+          </div>
+
+          {/* Download System Data JSON */}
+          <button
+            onClick={handleDownloadSystemDataJSON}
+            className="flex items-center space-x-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-2 rounded-xl text-xs font-bold transition-all"
+            title="Download JSON data file for this system"
+          >
+            <Download className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Download Data (.JSON)</span>
+          </button>
+
+          {/* Download CSV Report */}
+          <button
+            onClick={handleDownloadSystemDataCSV}
+            className="flex items-center space-x-1.5 bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-300 px-3 py-2 rounded-xl text-xs font-bold transition-all"
+            title="Export CSV Sales Spreadsheet"
+          >
+            <Download className="w-3.5 h-3.5 text-sky-600" />
+            <span>Export CSV</span>
+          </button>
+
+          <button
+            onClick={handleManualRefresh}
+            className="flex items-center space-x-2 bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold transition-all shadow-2xs"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-rose-600' : ''}`} />
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
 
-      {/* Metrics Row */}
+      {/* Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Sales</span>
-            <h4 className="text-2xl font-black text-slate-900 mt-1">₹{totalRevenue}</h4>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Total Orders</span>
+            <span className="text-2xl font-black text-slate-900 mt-1 block">{totalOrders}</span>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-            <IndianRupee className="w-6 h-6" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Queue</span>
-            <h4 className="text-2xl font-black text-amber-600 mt-1">{pendingCount} orders</h4>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
-            <ChefHat className="w-6 h-6" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs flex items-center justify-between">
-          <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Ready for Pickup</span>
-            <h4 className="text-2xl font-black text-emerald-600 mt-1">{readyCount} orders</h4>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
             <PackageCheck className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Orders</span>
-            <h4 className="text-2xl font-black text-slate-900 mt-1">{totalOrders}</h4>
+            <span className="text-xs font-bold text-amber-600 uppercase tracking-wider block">Active Kitchen Queue</span>
+            <span className="text-2xl font-black text-amber-600 mt-1 block">{pendingCount}</span>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
-            <Clock className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <ChefHat className="w-6 h-6" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+          <div>
+            <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider block">Ready to Serve</span>
+            <span className="text-2xl font-black text-emerald-600 mt-1 block">{readyCount}</span>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <CheckCircle className="w-6 h-6" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+          <div>
+            <span className="text-xs font-bold text-rose-600 uppercase tracking-wider block">Total Sales</span>
+            <span className="text-2xl font-black text-rose-600 mt-1 block">₹{totalRevenue}</span>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+            <IndianRupee className="w-6 h-6" />
           </div>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-4 mb-6">
+      <div className="flex items-center space-x-2 border-b border-slate-200 pb-4 mb-6 overflow-x-auto">
         {['All', 'Received', 'Preparing', 'Ready', 'Delivered', 'Cancelled'].map((status) => (
           <button
             key={status}
             onClick={() => setFilterStatus(status)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 ${
               filterStatus === status
-                ? 'bg-rose-600 text-white border-rose-600 shadow-md shadow-rose-600/20'
-                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
             }`}
           >
-            {status}
+            {status} {status === 'All' ? `(${totalOrders})` : ''}
           </button>
         ))}
       </div>
 
-      {/* Order Cards Grid */}
+      {/* Orders Grid */}
       {filteredOrders.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 text-slate-400">
-          <AlertCircle className="w-12 h-12 mx-auto mb-3 stroke-1 text-slate-300" />
-          <p className="text-base font-bold text-slate-700">No orders found</p>
-          <p className="text-xs text-slate-400 mt-1">Orders placed by customers will appear here live.</p>
+          <ChefHat className="w-12 h-12 mx-auto mb-3 stroke-1 text-slate-300" />
+          <p className="text-base font-bold text-slate-700">No orders in this queue</p>
+          <p className="text-xs text-slate-400 mt-1">Orders placed by customers will appear here automatically.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredOrders.map((order) => (
             <div
-              key={order._id}
-              className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs flex flex-col justify-between hover:shadow-md transition-all"
+              key={order._id || order.orderNumber}
+              className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4"
             >
               
-              <div>
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-                  <div>
-                    <h3 className="font-extrabold text-slate-900 text-lg">Order #{order.orderNumber}</h3>
-                    <span className="text-xs font-semibold text-slate-400">
-                      {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-
-                  <span className={`px-3 py-1 text-xs font-extrabold rounded-full border ${getStatusBadgeClass(order.orderStatus)}`}>
-                    {order.orderStatus}
+              {/* Card Header */}
+              <div className="flex items-start justify-between border-b border-slate-100 pb-3">
+                <div>
+                  <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                    {order.customer?.orderType || 'Dine-In'}
+                  </span>
+                  <h3 className="text-lg font-black text-slate-900 mt-1">Order #{order.orderNumber}</h3>
+                  <span className="text-[11px] text-slate-400 font-medium block">
+                    {new Date(order.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
 
-                {/* Customer Details */}
-                <div className="space-y-1.5 text-xs text-slate-600 mb-4 bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
-                  <div className="flex items-center justify-between text-slate-900 font-bold">
-                    <span>{order.customer?.name}</span>
-                    <span className="text-rose-600 font-extrabold bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
-                      {order.customer?.tableOrAddress}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-1.5 text-slate-500">
-                    <Phone className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{order.customer?.phone}</span>
-                    <span className="text-slate-300">•</span>
-                    <span>{order.customer?.orderType}</span>
-                  </div>
+                {/* Status Switcher Select */}
+                <div className="text-right">
+                  <select
+                    value={order.orderStatus}
+                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                    className={`text-xs font-black px-3 py-1.5 rounded-xl border outline-none cursor-pointer ${getStatusBadgeClass(order.orderStatus)}`}
+                  >
+                    <option value="Received">Received 🛎️</option>
+                    <option value="Preparing">Preparing 👨‍🍳</option>
+                    <option value="Ready">Ready 🔔</option>
+                    <option value="Delivered">Delivered ✅</option>
+                    <option value="Cancelled">Cancelled ❌</option>
+                  </select>
                 </div>
+              </div>
 
-                {/* Items List */}
-                <div className="space-y-2 mb-4">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Ordered Items</span>
+              {/* Customer Details */}
+              <div className="bg-slate-50 rounded-2xl p-3.5 space-y-1 text-xs">
+                <div className="flex items-center justify-between font-extrabold text-slate-900">
+                  <span>{order.customer?.name}</span>
+                  <span className="text-rose-600 flex items-center gap-1">
+                    <MapPin className="w-3 h-3" />
+                    <span>{order.customer?.tableOrAddress}</span>
+                  </span>
+                </div>
+                <div className="text-slate-500 font-medium flex items-center gap-1">
+                  <Phone className="w-3 h-3" />
+                  <span>{order.customer?.phone}</span>
+                </div>
+              </div>
+
+              {/* Order Items List */}
+              <div className="space-y-2 flex-1">
+                <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">
+                  Items ({order.items?.length || 0})
+                </span>
+                <div className="space-y-1.5 text-xs text-slate-800 max-h-36 overflow-y-auto pr-1">
                   {order.items?.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-xs text-slate-800">
-                      <div className="font-medium">
-                        <span className="font-bold">{item.quantity}x</span> {item.name}
-                        {item.selectedSize && <span className="text-slate-500 font-normal"> ({item.selectedSize})</span>}
-                      </div>
+                    <div key={idx} className="flex justify-between items-center bg-slate-50/60 p-2 rounded-xl border border-slate-100">
+                      <span>
+                        <strong className="font-extrabold text-slate-900">{item.quantity}x</strong> {item.name}
+                        {item.selectedSize && <span className="text-slate-500 text-[11px]"> ({item.selectedSize})</span>}
+                      </span>
                       <span className="font-bold text-slate-900">₹{item.totalItemPrice || (item.unitPrice * item.quantity)}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Status Action Buttons */}
-              <div className="border-t border-slate-100 pt-4 mt-2">
-                
-                <div className="flex items-center justify-between text-xs mb-3">
-                  <span className="font-semibold text-slate-500">Payment Status</span>
-                  <span className={`px-2.5 py-0.5 font-bold rounded-md ${
-                    order.paymentStatus === 'Paid'
-                      ? 'bg-emerald-100 text-emerald-800'
-                      : 'bg-amber-100 text-amber-800'
-                  }`}>
-                    {order.paymentStatus} (Razorpay)
+              {/* Card Footer */}
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-slate-400 font-bold block uppercase">Payment Status</span>
+                  <span className={`text-xs font-black ${order.paymentStatus === 'Paid' || order.paymentStatus === 'Cash' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                    {order.paymentStatus === 'Cash' ? 'Cash / Counter Pay' : order.paymentStatus || 'Paid'}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
-                  {order.orderStatus === 'Received' && (
-                    <button
-                      onClick={() => handleStatusChange(order._id, 'Preparing')}
-                      className="col-span-2 bg-sky-600 hover:bg-sky-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-xs"
-                    >
-                      Mark Preparing
-                    </button>
-                  )}
-
-                  {order.orderStatus === 'Preparing' && (
-                    <button
-                      onClick={() => handleStatusChange(order._id, 'Ready')}
-                      className="col-span-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-xs"
-                    >
-                      Mark Order Ready
-                    </button>
-                  )}
-
-                  {order.orderStatus === 'Ready' && (
-                    <button
-                      onClick={() => handleStatusChange(order._id, 'Delivered')}
-                      className="col-span-2 bg-slate-800 hover:bg-slate-900 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-xs"
-                    >
-                      Mark Delivered
-                    </button>
-                  )}
-
-                  {order.orderStatus !== 'Delivered' && order.orderStatus !== 'Cancelled' && (
-                    <button
-                      onClick={() => handleStatusChange(order._id, 'Cancelled')}
-                      className="col-span-2 text-rose-600 hover:bg-rose-50 border border-rose-200 py-1.5 rounded-xl text-xs font-semibold transition-all mt-1"
-                    >
-                      Cancel Order
-                    </button>
-                  )}
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-400 font-bold block uppercase">Total WYSWYP</span>
+                  <span className="text-lg font-black text-rose-600">₹{order.totalAmount}</span>
                 </div>
-
               </div>
 
             </div>

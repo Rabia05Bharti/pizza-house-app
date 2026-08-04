@@ -1034,31 +1034,20 @@ export const initialMenu = [
   // --- BEVERAGES ---
   {
     "_id": "menu-bev-1",
-    "name": "Mineral Water Packed",
+    "name": "Mineral Water",
     "category": "Beverages",
-    "description": "1 Litre sealed packaged mineral water bottle",
+    "description": "Sealed packaged mineral water bottle (1L)",
     "isHealthFocused": false,
-    "price": 10,
+    "price": 20,
     "hasSizes": false,
     "image": "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
     "_id": "menu-bev-2",
-    "name": "Slice",
+    "name": "Cold Drink",
     "category": "Beverages",
-    "description": "Chilled mango fruit drink",
-    "isHealthFocused": false,
-    "price": 20,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1546173159-315724a31696?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-bev-3",
-    "name": "Pepsi",
-    "category": "Beverages",
-    "description": "Chilled aerated cola soft drink",
+    "description": "Chilled aerated soft drink bottle (250ml / 500ml)",
     "isHealthFocused": false,
     "price": 20,
     "hasSizes": false,
@@ -1066,36 +1055,14 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "menu-bev-4",
-    "name": "Mountain Dew",
+    "_id": "menu-bev-3",
+    "name": "Can",
     "category": "Beverages",
-    "description": "Citrus soft drink bottle",
+    "description": "Chilled premium beverage tin can (330ml)",
     "isHealthFocused": false,
-    "price": 20,
+    "price": 70,
     "hasSizes": false,
     "image": "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-bev-5",
-    "name": "Sting",
-    "category": "Beverages",
-    "description": "Energy drink bottle",
-    "isHealthFocused": false,
-    "price": 20,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-bev-6",
-    "name": "Fruit Beer",
-    "category": "Beverages",
-    "description": "Non-alcoholic fizzy fruit beer beverage",
-    "isHealthFocused": false,
-    "price": 40,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   }
 ];
