@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchMenu, fetchCategories } from '../services/api';
+import { initialMenu } from '../data/initialMenu';
 
 export const loadMenuData = createAsyncThunk(
   'menu/loadMenuData',
@@ -28,7 +29,7 @@ export const loadCategoriesData = createAsyncThunk(
 const menuSlice = createSlice({
   name: 'menu',
   initialState: {
-    items: [],
+    items: initialMenu,
     categories: ["All", "Gym Guyz", "Momos & Rolls", "Pizza Single Topping", "Pizza Veg Double Topping", "Kidz Pizza", "Pizza Veg-1", "Pizza Veg-2", "Pizza Veg-3", "Burgers", "Sandwich", "Pasta", "Fries", "Wraps", "Shakes", "Hot Dessert", "Mocktails", "Cold Desserts", "Breads", "Beverages"],
     selectedCategory: 'All',
     searchQuery: '',
@@ -46,19 +47,25 @@ const menuSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadMenuData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading = false; // Keep menu items visible immediately in 0ms
       })
       .addCase(loadMenuData.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        if (action.payload && action.payload.length > 0) {
+          state.items = action.payload;
+        }
       })
-      .addCase(loadMenuData.rejected, (state, action) => {
+      .addCase(loadMenuData.rejected, (state) => {
         state.loading = false;
-        state.error = action.payload;
+        // Keep initialMenu so the user never sees an error card!
+        if (!state.items || state.items.length === 0) {
+          state.items = initialMenu;
+        }
       })
       .addCase(loadCategoriesData.fulfilled, (state, action) => {
-        state.categories = action.payload;
+        if (action.payload && action.payload.length > 0) {
+          state.categories = action.payload;
+        }
       });
   }
 });
