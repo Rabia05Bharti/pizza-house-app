@@ -1,6 +1,7 @@
 export const initialMenu = [
+  // --- GYM GUYZ (PRIORITY HEALTH SECTION) ---
   {
-    "_id": "mem-1",
+    "_id": "menu-gg-1",
     "name": "Fruit Cup Smoothie",
     "category": "Gym Guyz",
     "description": "Rich in protein & antioxidants, freshly blended seasonal fruits with Greek yogurt",
@@ -11,7 +12,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-2",
+    "_id": "menu-gg-2",
     "name": "Dry Fruit Cup Smoothie",
     "category": "Gym Guyz",
     "description": "Power-packed smoothie loaded with almonds, walnuts, dates, cashew & honey",
@@ -22,7 +23,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-3",
+    "_id": "menu-gg-3",
     "name": "Gym Special Sandwich",
     "category": "Gym Guyz",
     "description": "High-protein multi-grain bread stuffed with grilled cottage cheese, spinach & eggless mayo",
@@ -32,41 +33,10 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- PIZZA SINGLE TOPPING ---
   {
-    "_id": "mem-4",
-    "name": "Veg Momos",
-    "category": "Momos & Rolls",
-    "description": "Steamed dumplings filled with finely chopped fresh garden vegetables",
-    "isHealthFocused": false,
-    "price": 80,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "mem-5",
-    "name": "Paneer Momos",
-    "category": "Momos & Rolls",
-    "description": "Succulent momos packed with seasoned paneer stuffing & authentic spicy chutney",
-    "isHealthFocused": false,
-    "price": 100,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "mem-6",
-    "name": "Spring Roll",
-    "category": "Momos & Rolls",
-    "description": "Crispy golden rolls filled with shredded cabbage, carrots & noodles",
-    "isHealthFocused": false,
-    "price": 100,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "mem-7",
+    "_id": "menu-pst-1",
     "name": "Onion Single Topping Pizza",
     "category": "Pizza Single Topping",
     "description": "Classic pan crust topped with mozzarella cheese and crunchy sliced onions",
@@ -77,7 +47,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-8",
+    "_id": "menu-pst-2",
     "name": "Capsicum Single Topping Pizza",
     "category": "Pizza Single Topping",
     "description": "Loaded with melted mozzarella and fresh green capsicum slices",
@@ -88,7 +58,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-9",
+    "_id": "menu-pst-3",
     "name": "Tomato Single Topping Pizza",
     "category": "Pizza Single Topping",
     "description": "Tangy tomato sauce, mozzarella cheese, and juicy tomato rings",
@@ -99,7 +69,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-10",
+    "_id": "menu-pst-4",
     "name": "Mushroom Single Topping Pizza",
     "category": "Pizza Single Topping",
     "description": "Rich button mushrooms baked to perfection on a cheesy base",
@@ -110,7 +80,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-11",
+    "_id": "menu-pst-5",
     "name": "Corn Single Topping Pizza",
     "category": "Pizza Single Topping",
     "description": "Sweet golden corn kernels with molten mozzarella cheese",
@@ -120,8 +90,10 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- PIZZA-VEG DOUBLE TOPPING ---
   {
-    "_id": "mem-12",
+    "_id": "menu-pdt-1",
     "name": "Onion + Capsicum",
     "category": "Pizza Veg Double Topping",
     "description": "Crunchy onions combined with vibrant capsicum and rich mozzarella cheese",
@@ -132,7 +104,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-13",
+    "_id": "menu-pdt-2",
     "name": "Onion + Corn",
     "category": "Pizza Veg Double Topping",
     "description": "Sweet juicy corn paired with crisp red onions and cheese",
@@ -143,7 +115,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-14",
+    "_id": "menu-pdt-3",
     "name": "Capsicum + Corn",
     "category": "Pizza Veg Double Topping",
     "description": "Fresh capsicum and sweet corn topping on signature pizza crust",
@@ -154,7 +126,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-15",
+    "_id": "menu-pdt-4",
     "name": "Paneer + Capsicum",
     "category": "Pizza Veg Double Topping",
     "description": "Soft diced paneer cubes paired with fresh green capsicum",
@@ -165,7 +137,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-16",
+    "_id": "menu-pdt-5",
     "name": "Paneer + Corn",
     "category": "Pizza Veg Double Topping",
     "description": "Creamy paneer cubes combined with golden sweet corn",
@@ -176,7 +148,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-17",
+    "_id": "menu-pdt-6",
     "name": "Paneer + Special",
     "category": "Pizza Veg Double Topping",
     "description": "Chef's special paneer creation with secret spice seasoning and extra cheese",
@@ -186,9 +158,11 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- KIDZ PIZZA ---
   {
-    "_id": "mem-18",
-    "name": "Double Cheese Kidz Pizza",
+    "_id": "menu-kp-1",
+    "name": "Double Cheese",
     "category": "Kidz Pizza",
     "description": "Double layer of molten liquid cheese and mozzarella blend",
     "isHealthFocused": false,
@@ -202,8 +176,8 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-19",
-    "name": "Cheese Corn Kidz Pizza",
+    "_id": "menu-kp-2",
+    "name": "Cheese Corn",
     "category": "Kidz Pizza",
     "description": "Sweet corn kernels immersed in creamy double cheese",
     "isHealthFocused": false,
@@ -217,8 +191,8 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-20",
-    "name": "Cheese Tomato Kidz Pizza",
+    "_id": "menu-kp-3",
+    "name": "Cheese Tomato",
     "category": "Kidz Pizza",
     "description": "Kids favorite tomato slice pizza with melted mozzarella cheese",
     "isHealthFocused": false,
@@ -231,11 +205,13 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- PIZZA VEG-1 ---
   {
-    "_id": "mem-21",
+    "_id": "menu-pv1-1",
     "name": "Veg Overload",
     "category": "Pizza Veg-1",
-    "description": "Loaded with Onion, Capsicum, Tomato & Golden Corn",
+    "description": "Onion + Capsicum + Tomato + Corn",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -247,10 +223,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-22",
+    "_id": "menu-pv1-2",
     "name": "Picante Paneer",
     "category": "Pizza Veg-1",
-    "description": "Spicy mix of Onion, Baby Corn, Jalapeno & Paneer",
+    "description": "Onion + Baby Corn + Jalapeno + Paneer",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -262,10 +238,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-23",
+    "_id": "menu-pv1-3",
     "name": "Farm Fresh",
     "category": "Pizza Veg-1",
-    "description": "Farm fresh Onion, Capsicum, Mushroom & Tomato with mozzarella",
+    "description": "Onion + Capsicum + Mushroom + Tomato",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -277,10 +253,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-24",
+    "_id": "menu-pv1-4",
     "name": "Nepali Veggie Pizza",
     "category": "Pizza Veg-1",
-    "description": "Traditional blend of Capsicum, Onion, Corn & Cheese",
+    "description": "Capsicum + Onion + Corn + Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -291,11 +267,13 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- PIZZA VEG-2 ---
   {
-    "_id": "mem-25",
+    "_id": "menu-pv2-1",
     "name": "Spicy Paneer Pizza",
     "category": "Pizza Veg-2",
-    "description": "Onion, Capsicum, Red Paprika, Paneer & Cheese",
+    "description": "Onion + Capsicum + Red Paprika + Paneer + Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -307,10 +285,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-26",
+    "_id": "menu-pv2-2",
     "name": "Paneer Makhani Pizza",
     "category": "Pizza Veg-2",
-    "description": "Capsicum, Paneer, Rich Makhani Sauce & Extra Cheese",
+    "description": "Capsicum + Paneer + Makhani Sauce + Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -322,10 +300,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-27",
+    "_id": "menu-pv2-3",
     "name": "Supreme Veggie",
     "category": "Pizza Veg-2",
-    "description": "Onion, Capsicum, Paneer, Mushroom, Corn & Cheese",
+    "description": "Onion + Capsicum + Paneer + Mushroom + Corn + Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -337,10 +315,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-28",
+    "_id": "menu-pv2-4",
     "name": "Cloud 9 Pizza",
     "category": "Pizza Veg-2",
-    "description": "Onion, Capsicum, Corn, Paneer, Mushroom & Garlic Sauce",
+    "description": "Onion + Capsicum + Corn + Paneer + Mushroom + Garlic Sauce",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -352,10 +330,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-29",
+    "_id": "menu-pv2-5",
     "name": "Middle Eastern Supreme",
     "category": "Pizza Veg-2",
-    "description": "Onion, Capsicum, Mushroom, Corn, Jalapeno & Black Olive",
+    "description": "Onion + Capsicum + Mushroom + Corn + Jalapeno + Black Olive",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -366,11 +344,13 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- PIZZA VEG-3 ---
   {
-    "_id": "mem-30",
+    "_id": "menu-pv3-1",
     "name": "Roasted Veggie Pizza",
     "category": "Pizza Veg-3",
-    "description": "Roasted Veggie, Yellow Bell Pepper, Black Olive, Jalapenos, Corn & Extra Cheese",
+    "description": "Roasted Veggie + Yellow Bell Pepper + Black Olive + Jalapenos + Corn + Extra Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -382,10 +362,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-31",
+    "_id": "menu-pv3-2",
     "name": "Paneer Extra Vaganza",
     "category": "Pizza Veg-3",
-    "description": "Tandoori Paneer, Capsicum, Onion, Tomato, Cheese, Corn, Black Olive, Jalapeno & Extra Cheese",
+    "description": "Tandoori Paneer + Capsicum + Onion + Tomato + Cheese + Corn + Black Olive + Jalapeno + Extra Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -397,10 +377,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-32",
+    "_id": "menu-pv3-3",
     "name": "Fully Veg Loaded",
     "category": "Pizza Veg-3",
-    "description": "Tandoori Paneer, Capsicum, Onion, Tomato, Cheese, Corn, Black Olive, Jalapeno, Red Paprika, Garlic Sauce & Extra Cheese",
+    "description": "Tandoori Paneer + Capsicum + Onion + Tomato + Cheese + Corn + Black Olive + Jalapeno + Red Paprika + Garlic Sauce + Extra Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -412,10 +392,10 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-33",
+    "_id": "menu-pv3-4",
     "name": "Paneer Tikka Kadai",
     "category": "Pizza Veg-3",
-    "description": "Onion, Capsicum, Jalapeno, Mushroom, Paneer, Olive & Extra Cheese",
+    "description": "Onion + Capsicum + Jalapeno + Mushroom + Paneer + Olive + Extra Cheese",
     "isHealthFocused": false,
     "hasSizes": true,
     "sizes": [
@@ -426,8 +406,10 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- BURGERS ---
   {
-    "_id": "mem-34",
+    "_id": "menu-b-1",
     "name": "Aloo Tikki Burger",
     "category": "Burgers",
     "description": "Crispy potato patty with onion, tomato & classic burger sauce",
@@ -438,7 +420,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-35",
+    "_id": "menu-b-2",
     "name": "Mix Veg Burger",
     "category": "Burgers",
     "description": "Golden vegetable patty with lettuce, mayo & house seasonings",
@@ -449,7 +431,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-36",
+    "_id": "menu-b-3",
     "name": "Cheese Burger",
     "category": "Burgers",
     "description": "Classic veggie patty topped with a melt-in-the-mouth cheddar slice",
@@ -460,7 +442,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-37",
+    "_id": "menu-b-4",
     "name": "Paneer Tikki Burger",
     "category": "Burgers",
     "description": "Spicy marinated paneer patty topped with crunchy veggies",
@@ -471,7 +453,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-38",
+    "_id": "menu-b-5",
     "name": "Spicy Bomb Burger",
     "category": "Burgers",
     "description": "Fiery chili paste sauce, jalapeños & extra spicy veg patty",
@@ -482,7 +464,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-39",
+    "_id": "menu-b-6",
     "name": "Crunchy Burger",
     "category": "Burgers",
     "description": "Extra crunchy double-coated patty with thousand island dressing",
@@ -493,7 +475,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-40",
+    "_id": "menu-b-7",
     "name": "Cheesy Paneer Burger",
     "category": "Burgers",
     "description": "Thick paneer slice loaded with double cheese & smoky sauce",
@@ -504,7 +486,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-41",
+    "_id": "menu-b-8",
     "name": "Pizza House Spl. Burger",
     "category": "Burgers",
     "description": "Double patty, double cheese, paneer chunk & signature chef special sauce",
@@ -514,8 +496,10 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- SANDWICH ---
   {
-    "_id": "mem-42",
+    "_id": "menu-sw-1",
     "name": "Veg Grilled Sandwich",
     "category": "Sandwich",
     "description": "Crispy buttered toast stuffed with capsicum, cucumber, tomato & mint chutney",
@@ -526,7 +510,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-43",
+    "_id": "menu-sw-2",
     "name": "Mushroom Sandwich",
     "category": "Sandwich",
     "description": "Sauteed button mushrooms grilled with oregano and cheese",
@@ -537,7 +521,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-44",
+    "_id": "menu-sw-3",
     "name": "Cheese Grilled Sandwich",
     "category": "Sandwich",
     "description": "Melted mozzarella & processed cheese in crispy toasted bread",
@@ -548,7 +532,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-45",
+    "_id": "menu-sw-4",
     "name": "Spicy Grilled Sandwich",
     "category": "Sandwich",
     "description": "Fiery chili garlic spread with spiced veggies & cheese",
@@ -559,7 +543,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-46",
+    "_id": "menu-sw-5",
     "name": "Tandoori Paneer Sandwich",
     "category": "Sandwich",
     "description": "Smoky tandoori paneer cubes with onion, bell pepper & cheese",
@@ -569,8 +553,10 @@ export const initialMenu = [
     "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
+
+  // --- PASTA ---
   {
-    "_id": "mem-47",
+    "_id": "menu-pa-1",
     "name": "Red Sauce Pasta",
     "category": "Pasta",
     "description": "Penne pasta tossed in rich tangy tomato arrabbiata sauce with Italian herbs",
@@ -581,7 +567,7 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-48",
+    "_id": "menu-pa-2",
     "name": "White Sauce Pasta",
     "category": "Pasta",
     "description": "Creamy bechamel sauce pasta cooked with sweet corn and fresh peppers",
@@ -592,7 +578,42 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-49",
+    "_id": "menu-pa-3",
+    "name": "Mix Sauce Pasta",
+    "category": "Pasta",
+    "description": "Best of both worlds! Red arrabbiata and creamy white sauce blend",
+    "isHealthFocused": false,
+    "price": 110,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-pa-4",
+    "name": "Spicy & Hot Pasta",
+    "category": "Pasta",
+    "description": "Fiery chili paprika sauce tossed with penne pasta & garlic chunks",
+    "isHealthFocused": false,
+    "price": 120,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1621996346565-e3d5d6281878?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-pa-5",
+    "name": "Cheese Pasta",
+    "category": "Pasta",
+    "description": "Loaded with melted cheddar, mozzarella & parmesan cheese sauce",
+    "isHealthFocused": false,
+    "price": 130,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- FRIES ---
+  {
+    "_id": "menu-fr-1",
     "name": "French Fries",
     "category": "Fries",
     "description": "Golden salted crisp potato fries served with ketchup",
@@ -603,7 +624,246 @@ export const initialMenu = [
     "isAvailable": true
   },
   {
-    "_id": "mem-50",
+    "_id": "menu-fr-2",
+    "name": "Masala Fries",
+    "category": "Fries",
+    "description": "Crispy fries tossed in chatpata Indian masala seasoning",
+    "isHealthFocused": false,
+    "price": 90,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-fr-3",
+    "name": "Peri Peri Spicy Fries",
+    "category": "Fries",
+    "description": "Spicy African peri-peri sprinkled crunchy potato fries",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-fr-4",
+    "name": "French Fries with Cheese Dip",
+    "category": "Fries",
+    "description": "Golden fries served with warm molten cheddar cheese dip",
+    "isHealthFocused": false,
+    "price": 110,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- WRAPS ---
+  {
+    "_id": "menu-wr-1",
+    "name": "Veggie Wrap",
+    "category": "Wraps",
+    "description": "Tortilla roll packed with fresh crunchy veggies and creamy mayo",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-2",
+    "name": "Mix Veg Potato Wrap",
+    "category": "Wraps",
+    "description": "Crispy spiced potato patty wrapped with shredded veggies & mint sauce",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-3",
+    "name": "Cheese Corn Wrap",
+    "category": "Wraps",
+    "description": "Golden sweet corn and melted cheese filling inside toasted wrap",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-4",
+    "name": "Paneer Wrap",
+    "category": "Wraps",
+    "description": "Marinated paneer chunks wrapped with onion, capsicum & mayo sauce",
+    "isHealthFocused": false,
+    "price": 110,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-5",
+    "name": "Makhani Sauce Wrap",
+    "category": "Wraps",
+    "description": "Rich Punjabi makhani gravy paneer wrapped in soft flatbread",
+    "isHealthFocused": false,
+    "price": 120,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- SHAKES ---
+  {
+    "_id": "menu-sh-1",
+    "name": "Mango Shake",
+    "category": "Shakes",
+    "description": "Thick tropical mango pulp blended with chilled whole milk",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-2",
+    "name": "Vanilla Shake",
+    "category": "Shakes",
+    "description": "Classic creamy vanilla bean milk shake topped with whipped cream",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-3",
+    "name": "Strawberry Shake",
+    "category": "Shakes",
+    "description": "Sweet strawberry crush blended into thick cold milk",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-4",
+    "name": "Butter Scotch",
+    "category": "Shakes",
+    "description": "Butterscotch crunch ice cream blended with rich cold milk",
+    "isHealthFocused": false,
+    "price": 90,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-5",
+    "name": "Cold Coffee",
+    "category": "Shakes",
+    "description": "Rich espresso coffee blended with chilled milk and ice cream",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-6",
+    "name": "Choco Frappe",
+    "category": "Shakes",
+    "description": "Double chocolate fudge frappe topped with dark chocolate syrup",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-7",
+    "name": "Oreo Shake",
+    "category": "Shakes",
+    "description": "Crunchy Oreo cookies blended with chocolate ice cream & milk",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-8",
+    "name": "Kit Kat Shake",
+    "category": "Shakes",
+    "description": "Crispy KitKat wafer bars blended into rich chocolate milkshake",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-9",
+    "name": "Black Current Shake",
+    "category": "Shakes",
+    "description": "Exotic blackcurrant berry crush blended with ice cream",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-10",
+    "name": "Caramel Shake",
+    "category": "Shakes",
+    "description": "Golden salted caramel sauce blended into thick cream milk",
+    "isHealthFocused": false,
+    "price": 110,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-11",
+    "name": "Hazelnut Shake",
+    "category": "Shakes",
+    "description": "Roasted hazelnut & Nutella cocoa spread thick milkshake",
+    "isHealthFocused": false,
+    "price": 120,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-sh-12",
+    "name": "Kesar Shake",
+    "category": "Shakes",
+    "description": "Royal saffron threads infused with cardamom and almond milk",
+    "isHealthFocused": false,
+    "price": 120,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- HOT DESSERT ---
+  {
+    "_id": "menu-hd-1",
+    "name": "Choco Lava Cake",
+    "category": "Hot Dessert",
+    "description": "Warm chocolate cake with a molten oozing liquid chocolate center",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- MOCKTAILS ---
+  {
+    "_id": "menu-mc-1",
     "name": "Mint Mojito",
     "category": "Mocktails",
     "description": "Refreshing fresh mint leaves, lemon juice, soda & crushed ice",
@@ -611,6 +871,199 @@ export const initialMenu = [
     "price": 90,
     "hasSizes": false,
     "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mc-2",
+    "name": "Blue Curacao",
+    "category": "Mocktails",
+    "description": "Vibrant blue curaçao citrus syrup mixed with fizzy lemon soda",
+    "isHealthFocused": false,
+    "price": 90,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mc-3",
+    "name": "Peach Mocktail",
+    "category": "Mocktails",
+    "description": "Sweet juicy peach nectar muddled with mint and sparkling soda",
+    "isHealthFocused": false,
+    "price": 90,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mc-4",
+    "name": "Passion Fruit",
+    "category": "Mocktails",
+    "description": "Tangy tropical passion fruit pulp served over crushed ice",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mc-5",
+    "name": "Watermelon Mocktail",
+    "category": "Mocktails",
+    "description": "Freshly muddled watermelon juice with black salt and lemon lime",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mc-6",
+    "name": "Green Apple Mocktail",
+    "category": "Mocktails",
+    "description": "Crisp green apple syrup with sparkling soda and ice cubes",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- COLD DESSERTS / ICE CREAM ---
+  {
+    "_id": "menu-cd-1",
+    "name": "Ice Cream Scoop",
+    "category": "Cold Desserts",
+    "description": "Assorted flavors: Vanilla, Chocolate, Butterscotch & Strawberry available",
+    "isHealthFocused": false,
+    "price": 50,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- BREADS ---
+  {
+    "_id": "menu-br-1",
+    "name": "Paneer Parcel",
+    "category": "Breads",
+    "description": "Crispy golden baked bread parcel filled with spicy paneer & mayo",
+    "isHealthFocused": false,
+    "price": 50,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-br-2",
+    "name": "Garlic Bread Stick With Dip",
+    "category": "Breads",
+    "description": "Freshly baked garlic breadsticks served with creamy cheesy dip",
+    "isHealthFocused": false,
+    "price": 90,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-br-3",
+    "name": "Calzone",
+    "category": "Breads",
+    "description": "Folded Italian pizza pocket stuffed with veggies, mozzarella & herbs",
+    "isHealthFocused": false,
+    "price": 120,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-br-4",
+    "name": "Veg Garlic Bread",
+    "category": "Breads",
+    "description": "Toasted garlic bread topped with sweet corn, capsicum & melted cheese",
+    "isHealthFocused": false,
+    "price": 120,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-br-5",
+    "name": "Stuff Garlic Bread With Dip",
+    "category": "Breads",
+    "description": "Signature garlic bread stuffed with paneer, corn, jalapeno & cheese",
+    "isHealthFocused": false,
+    "price": 130,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
+  // --- BEVERAGES ---
+  {
+    "_id": "menu-bev-1",
+    "name": "Mineral Water Packed",
+    "category": "Beverages",
+    "description": "1 Litre sealed packaged mineral water bottle",
+    "isHealthFocused": false,
+    "price": 10,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-bev-2",
+    "name": "Slice",
+    "category": "Beverages",
+    "description": "Chilled mango fruit drink",
+    "isHealthFocused": false,
+    "price": 20,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-bev-3",
+    "name": "Pepsi",
+    "category": "Beverages",
+    "description": "Chilled aerated cola soft drink",
+    "isHealthFocused": false,
+    "price": 20,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-bev-4",
+    "name": "Mountain Dew",
+    "category": "Beverages",
+    "description": "Citrus soft drink bottle",
+    "isHealthFocused": false,
+    "price": 20,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-bev-5",
+    "name": "Sting",
+    "category": "Beverages",
+    "description": "Energy drink bottle",
+    "isHealthFocused": false,
+    "price": 20,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-bev-6",
+    "name": "Fruit Beer",
+    "category": "Beverages",
+    "description": "Non-alcoholic fizzy fruit beer beverage",
+    "isHealthFocused": false,
+    "price": 40,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   }
 ];
