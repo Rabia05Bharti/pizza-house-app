@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCartItems, selectCartTotal, clearCart } from '../redux/cartSlice';
+import { selectCartItems, selectCartTotal, clearCart, holdCurrentCart } from '../redux/cartSlice';
 import { setCheckoutOpen, setConfirmedOrder, setSuccessModalOpen, submitOrder } from '../redux/orderSlice';
 import { createRazorpayOrderApi, verifyPaymentApi } from '../services/api';
-import { X, CreditCard, ShieldCheck, Utensils, ShoppingBag, Truck, Lock, QrCode, Copy, Check, ExternalLink } from 'lucide-react';
+import { X, CreditCard, ShieldCheck, Utensils, ShoppingBag, Truck, Lock, QrCode, Copy, Check, ExternalLink, Banknote, PauseCircle } from 'lucide-react';
 
 export default function CheckoutModal() {
   const dispatch = useDispatch();
@@ -18,11 +18,12 @@ export default function CheckoutModal() {
     orderType: 'Dine-In'
   });
 
-  const [paymentMethod, setPaymentMethod] = useState('UPI_QR'); // 'UPI_QR' | 'RAZORPAY'
+  const [paymentMethod, setPaymentMethod] = useState('CASH'); // 'CASH' | 'UPI_QR' | 'RAZORPAY'
   const [utrNumber, setUtrNumber] = useState('');
   const [copied, setCopied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [holdSuccessMsg, setHoldSuccessMsg] = useState('');
 
   if (!isOpen) return null;
 
@@ -39,6 +40,16 @@ export default function CheckoutModal() {
     navigator.clipboard.writeText(upiId);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleHoldOrder = () => {
+    if (!formData.name || !formData.phone || !formData.tableOrAddress) {
+      setErrorMsg('Please enter customer details (Name, Phone, Table) before holding order.');
+      return;
+    }
+    dispatch(holdCurrentCart({ customer: formData, totalAmount: cartTotal }));
+    dispatch(setCheckoutOpen(false));
+    alert(`Order for ${formData.name} (${formData.tableOrAddress}) has been PLACED ON HOLD ⏸️.\n\nYou can now take the next customer's order! Resume anytime from "Held Orders".`);
   };
 
   const handlePayAndOrder = async (e) => {
@@ -69,8 +80,30 @@ export default function CheckoutModal() {
         totalAmount: cartTotal
       };
 
+      if (paymentMethod === 'CASH') {
+        // Cash Payment Flow
+        const orderResult = await dispatch(submitOrder({
+          ...orderPayload,
+          paymentStatus: 'Cash'
+        })).unwrap();
+
+        dispatch(clearCart());
+        dispatch(setCheckoutOpen(false));
+        dispatch(setConfirmedOrder({
+          ...orderResult,
+          paymentStatus: 'Cash',
+          paymentDetails: {
+            paymentMethod: 'Cash / Pay at Counter',
+            razorpayPaymentId: `CASH-${Date.now()}`
+          }
+        }));
+        dispatch(setSuccessModalOpen(true));
+        setIsProcessing(false);
+        return;
+      }
+
       if (paymentMethod === 'UPI_QR') {
-        // Direct UPI QR Payment Submission
+        // Direct UPI QR Payment Flow
         const orderResult = await dispatch(submitOrder(orderPayload)).unwrap();
         
         dispatch(clearCart());
@@ -88,7 +121,7 @@ export default function CheckoutModal() {
         return;
       }
 
-      // 2. Razorpay Flow
+      // Razorpay Flow
       const orderResult = await dispatch(submitOrder(orderPayload)).unwrap();
       const dbOrderId = orderResult._id;
 
@@ -177,16 +210,29 @@ export default function CheckoutModal() {
             </div>
             <div>
               <h3 className="text-lg font-black text-slate-900">Checkout</h3>
-              <p className="text-xs text-slate-500 font-medium">Complete details & scan QR to pay</p>
+              <p className="text-xs text-slate-500 font-medium">Select Cash, QR or Online Payment</p>
             </div>
           </div>
 
-          <button
-            onClick={() => dispatch(setCheckoutOpen(false))}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-200/60 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center space-x-2">
+            {/* Hold Order Header Trigger */}
+            <button
+              type="button"
+              onClick={handleHoldOrder}
+              className="flex items-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold transition-all"
+              title="Hold this order for later & serve next customer"
+            >
+              <PauseCircle className="w-4 h-4 text-amber-600" />
+              <span className="hidden sm:inline">Hold Order</span>
+            </button>
+
+            <button
+              onClick={() => dispatch(setCheckoutOpen(false))}
+              className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-200/60 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Scrollable Form Body */}
@@ -282,52 +328,73 @@ export default function CheckoutModal() {
               <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1.5">
                 Payment Method
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod('CASH')}
+                  className={`p-2.5 rounded-xl border flex flex-col items-center justify-center text-center text-xs font-bold transition-all ${
+                    paymentMethod === 'CASH'
+                      ? 'bg-emerald-50 border-emerald-600 text-emerald-800 ring-2 ring-emerald-500/20'
+                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  <Banknote className="w-5 h-5 text-emerald-600 mb-1" />
+                  <span className="block font-black text-[11px]">Pay in Cash</span>
+                  <span className="text-[9px] text-slate-500 font-normal">Counter Pay</span>
+                </button>
+
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('UPI_QR')}
-                  className={`p-2.5 rounded-xl border flex items-center space-x-2 text-xs font-bold transition-all ${
+                  className={`p-2.5 rounded-xl border flex flex-col items-center justify-center text-center text-xs font-bold transition-all ${
                     paymentMethod === 'UPI_QR'
                       ? 'bg-rose-50 border-rose-600 text-rose-700 ring-2 ring-rose-500/20'
                       : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                   }`}
                 >
-                  <QrCode className="w-4 h-4 text-rose-600 shrink-0" />
-                  <div className="text-left leading-tight min-w-0">
-                    <span className="block font-black truncate">Scan UPI QR</span>
-                    <span className="text-[10px] text-slate-500 font-normal">GPay / PhonePe / Paytm</span>
-                  </div>
+                  <QrCode className="w-5 h-5 text-rose-600 mb-1" />
+                  <span className="block font-black text-[11px]">Scan UPI QR</span>
+                  <span className="text-[9px] text-slate-500 font-normal">GPay/PhonePe</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('RAZORPAY')}
-                  className={`p-2.5 rounded-xl border flex items-center space-x-2 text-xs font-bold transition-all ${
+                  className={`p-2.5 rounded-xl border flex flex-col items-center justify-center text-center text-xs font-bold transition-all ${
                     paymentMethod === 'RAZORPAY'
                       ? 'bg-rose-50 border-rose-600 text-rose-700 ring-2 ring-rose-500/20'
                       : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                   }`}
                 >
-                  <CreditCard className="w-4 h-4 text-rose-600 shrink-0" />
-                  <div className="text-left leading-tight min-w-0">
-                    <span className="block font-black truncate">Razorpay</span>
-                    <span className="text-[10px] text-slate-500 font-normal">Cards / Netbanking</span>
-                  </div>
+                  <CreditCard className="w-5 h-5 text-rose-600 mb-1" />
+                  <span className="block font-black text-[11px]">Razorpay</span>
+                  <span className="text-[9px] text-slate-500 font-normal">Cards/Netbank</span>
                 </button>
               </div>
             </div>
 
-            {/* UPI QR Display Card (Optimized Responsive Layout) */}
+            {/* Cash Pay Option Details */}
+            {paymentMethod === 'CASH' && (
+              <div className="bg-emerald-50/80 rounded-2xl p-4 border border-emerald-200 text-emerald-900 text-xs space-y-1">
+                <p className="font-extrabold flex items-center gap-1.5">
+                  <Banknote className="w-4 h-4 text-emerald-600" />
+                  <span>Cash Payment / Pay at Counter</span>
+                </p>
+                <p className="text-emerald-700 text-[11px]">
+                  Order will be placed immediately and sent to the kitchen. Payment of <strong className="font-black text-slate-900">₹{cartTotal}</strong> can be collected in cash at the counter or table upon delivery.
+                </p>
+              </div>
+            )}
+
+            {/* UPI QR Display Card */}
             {paymentMethod === 'UPI_QR' && (
               <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-center space-y-2.5">
                 
-                {/* Merchant Name */}
                 <div className="flex items-center justify-center space-x-1.5 bg-white px-3 py-1.5 rounded-xl border border-slate-200 w-fit mx-auto shadow-2xs">
                   <span className="text-base">🦁</span>
                   <span className="font-extrabold text-slate-900 text-xs">{upiName}</span>
                 </div>
 
-                {/* Scannable QR Code Image */}
                 <div className="bg-white p-2.5 rounded-2xl border border-slate-200 shadow-xs inline-block mx-auto">
                   <img
                     src={qrCodeUrl}
@@ -337,7 +404,6 @@ export default function CheckoutModal() {
                   <p className="text-[11px] font-bold text-slate-600 mt-1.5">Scan to pay with any UPI app</p>
                 </div>
 
-                {/* Copy UPI ID Bar */}
                 <div className="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-slate-200 max-w-xs mx-auto text-xs shadow-2xs">
                   <span className="font-mono text-slate-800 font-bold text-[11px] truncate">UPI ID: {upiId}</span>
                   <button
@@ -350,7 +416,6 @@ export default function CheckoutModal() {
                   </button>
                 </div>
 
-                {/* Open UPI App Deep Link for Mobile */}
                 <a
                   href={upiDeepLink}
                   className="inline-flex items-center space-x-1 text-xs font-bold text-rose-600 hover:text-rose-700 hover:underline pt-0.5"
@@ -359,7 +424,6 @@ export default function CheckoutModal() {
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
 
-                {/* Optional UTR Input */}
                 <div className="pt-1">
                   <input
                     type="text"
@@ -396,22 +460,38 @@ export default function CheckoutModal() {
         </div>
 
         {/* Modal Fixed Footer Action */}
-        <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50/80 shrink-0">
+        <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50/80 shrink-0 flex items-center space-x-2">
+          
+          {/* Hold Order Button */}
+          <button
+            type="button"
+            onClick={handleHoldOrder}
+            className="flex items-center justify-center space-x-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 px-4 py-3.5 rounded-2xl font-extrabold text-xs border border-amber-300 transition-all shrink-0"
+            title="Put order on hold and serve next customer"
+          >
+            <PauseCircle className="w-4 h-4 text-amber-700" />
+            <span>Hold ⏸️</span>
+          </button>
+
+          {/* Submit Order Button */}
           <button
             type="submit"
             form="checkout-form"
             disabled={isProcessing}
-            className="w-full flex items-center justify-center space-x-2 bg-rose-600 hover:bg-rose-700 disabled:bg-rose-400 text-white py-3.5 rounded-2xl font-black text-sm shadow-md shadow-rose-600/25 transition-all"
+            className="flex-1 flex items-center justify-center space-x-2 bg-rose-600 hover:bg-rose-700 disabled:bg-rose-400 text-white py-3.5 rounded-2xl font-black text-sm shadow-md shadow-rose-600/25 transition-all"
           >
             <Lock className="w-4 h-4" />
             <span>
               {isProcessing
-                ? 'Processing Order...'
+                ? 'Processing...'
+                : paymentMethod === 'CASH'
+                ? `Confirm Order in Cash (₹${cartTotal})`
                 : paymentMethod === 'UPI_QR'
                 ? `Paid ₹${cartTotal} via QR? Submit Order`
                 : `Pay ₹${cartTotal} via Razorpay`}
             </span>
           </button>
+
         </div>
 
       </div>

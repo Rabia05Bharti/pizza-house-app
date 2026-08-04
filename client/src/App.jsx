@@ -5,6 +5,7 @@ import Header from './components/Header';
 import CategoryBar from './components/CategoryBar';
 import FoodCard from './components/FoodCard';
 import CartDrawer from './components/CartDrawer';
+import HeldOrdersDrawer from './components/HeldOrdersDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import PaymentSuccessModal from './components/PaymentSuccessModal';
 import AdminDashboard from './components/AdminDashboard';
@@ -152,7 +153,10 @@ export default function App() {
           {/* Cart Drawer */}
           <CartDrawer />
 
-          {/* Petpooja Checkout Modal */}
+          {/* Held Orders Queue Drawer */}
+          <HeldOrdersDrawer />
+
+          {/* Checkout Modal */}
           <CheckoutModal />
 
           {/* Payment Success Modal */}

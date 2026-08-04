@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  items: [], // { cartItemId, menuItemId, name, category, selectedSize, price, quantity, extraToppings, isHealthFocused }
-  isCartOpen: false
+  items: [], // { cartItemId, menuItemId, name, category, selectedSize, unitPrice, quantity, extraToppings, isHealthFocused }
+  heldOrders: [], // { holdId, customer, items, totalAmount, heldAt }
+  isCartOpen: false,
+  isHeldOrdersOpen: false
 };
 
 const generateCartItemId = (menuItemId, selectedSize, extraToppings = []) => {
@@ -58,15 +60,60 @@ const cartSlice = createSlice({
     },
     toggleCartDrawer: (state, action) => {
       state.isCartOpen = typeof action.payload === 'boolean' ? action.payload : !state.isCartOpen;
+    },
+    toggleHeldOrdersDrawer: (state, action) => {
+      state.isHeldOrdersOpen = typeof action.payload === 'boolean' ? action.payload : !state.isHeldOrdersOpen;
+    },
+    holdCurrentCart: (state, action) => {
+      const { customer, totalAmount } = action.payload;
+      if (state.items.length === 0) return;
+
+      const holdId = `HOLD-${Math.floor(1000 + Math.random() * 9000)}`;
+      state.heldOrders.unshift({
+        holdId,
+        customer,
+        items: [...state.items],
+        totalAmount,
+        heldAt: new Date().toISOString()
+      });
+
+      state.items = [];
+      state.isCartOpen = false;
+    },
+    resumeHeldOrder: (state, action) => {
+      const holdId = action.payload;
+      const index = state.heldOrders.findIndex(o => o.holdId === holdId);
+      if (index > -1) {
+        const orderToResume = state.heldOrders[index];
+        state.items = orderToResume.items;
+        state.heldOrders.splice(index, 1);
+        state.isHeldOrdersOpen = false;
+        state.isCartOpen = true;
+      }
+    },
+    deleteHeldOrder: (state, action) => {
+      const holdId = action.payload;
+      state.heldOrders = state.heldOrders.filter(o => o.holdId !== holdId);
     }
   }
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart, toggleCartDrawer } = cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+  toggleCartDrawer,
+  toggleHeldOrdersDrawer,
+  holdCurrentCart,
+  resumeHeldOrder,
+  deleteHeldOrder
+} = cartSlice.actions;
 
-// Strict WYSWYP Selectors (Subtotal = Total, 0 Added Taxes)
+// Selectors
 export const selectCartItems = (state) => state.cart.items;
 export const selectCartItemCount = (state) => state.cart.items.reduce((total, item) => total + item.quantity, 0);
 export const selectCartTotal = (state) => state.cart.items.reduce((total, item) => total + (item.unitPrice * item.quantity), 0);
+export const selectHeldOrders = (state) => state.cart.heldOrders;
 
 export default cartSlice.reducer;

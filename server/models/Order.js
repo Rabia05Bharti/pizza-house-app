@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema({
   },
   items: [orderItemSchema],
   totalAmount: { type: Number, required: true }, // WYSWYP final amount (no added tax)
-  paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Failed'], default: 'Pending' },
+  paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Failed', 'Cash', 'Hold'], default: 'Pending' },
   paymentDetails: {
     razorpayOrderId: { type: String, default: '' },
     razorpayPaymentId: { type: String, default: '' },

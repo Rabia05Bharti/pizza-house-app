@@ -1,14 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleCartDrawer, selectCartItemCount, selectCartTotal } from '../redux/cartSlice';
+import { toggleCartDrawer, selectCartItemCount, selectCartTotal, selectHeldOrders, toggleHeldOrdersDrawer } from '../redux/cartSlice';
 import { setSearchQuery } from '../redux/menuSlice';
 import InstallAppButton from './InstallAppButton';
-import { ShoppingBag, Search, ShieldCheck, Phone, UtensilsCrossed } from 'lucide-react';
+import { ShoppingBag, Search, ShieldCheck, Phone, UtensilsCrossed, PauseCircle } from 'lucide-react';
 
 export default function Header({ currentView, setCurrentView }) {
   const dispatch = useDispatch();
   const itemCount = useSelector(selectCartItemCount);
   const cartTotal = useSelector(selectCartTotal);
+  const heldOrders = useSelector(selectHeldOrders);
   const searchQuery = useSelector((state) => state.menu.searchQuery);
 
   return (
@@ -51,9 +52,24 @@ export default function Header({ currentView, setCurrentView }) {
           )}
 
           {/* Action Buttons */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2.5">
             {/* Install Device App Button */}
             <InstallAppButton />
+
+            {/* Held Orders Button */}
+            {heldOrders.length > 0 && (
+              <button
+                onClick={() => dispatch(toggleHeldOrdersDrawer(true))}
+                className="relative flex items-center space-x-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 px-3 py-2 rounded-xl text-xs font-extrabold transition-all"
+                title="View & Resume Held Orders"
+              >
+                <PauseCircle className="w-4 h-4 text-amber-600" />
+                <span className="hidden sm:inline">Held ({heldOrders.length})</span>
+                <span className="sm:hidden bg-amber-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {heldOrders.length}
+                </span>
+              </button>
+            )}
 
             {/* View Switcher (Text Only) */}
             <button
