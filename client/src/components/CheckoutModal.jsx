@@ -60,6 +60,7 @@ export default function CheckoutModal() {
 
   const handlePayAndOrder = async (e) => {
     e.preventDefault();
+    if (isProcessing) return;
     setErrorMsg('');
     setIsProcessing(true);
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAdminOrders, updateOrderStatusThunk } from '../redux/orderSlice';
-import { RefreshCw, CheckCircle, Clock, ChefHat, PackageCheck, AlertCircle, Phone, MapPin, IndianRupee, Download, HardDrive, Settings, Printer } from 'lucide-react';
+import { RefreshCw, CheckCircle, Clock, ChefHat, PackageCheck, AlertCircle, Phone, MapPin, IndianRupee, Download, HardDrive, Settings, Printer, Trash2 } from 'lucide-react';
 
 export default function AdminDashboard() {
   const dispatch = useDispatch();
@@ -36,6 +36,30 @@ export default function AdminDashboard() {
       id: orderId,
       statusData: { orderStatus: newStatus }
     }));
+  };
+
+  // Delete single order from device storage & state
+  const handleDeleteOrder = (orderToDelete) => {
+    if (window.confirm(`Delete Order #${orderToDelete.orderNumber}?`)) {
+      try {
+        const currentSystemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
+        const systemOrders = JSON.parse(localStorage.getItem(`orders_${currentSystemId}`) || '[]');
+        const updatedOrders = systemOrders.filter(o => o.orderNumber !== orderToDelete.orderNumber && o._id !== orderToDelete._id);
+        localStorage.setItem(`orders_${currentSystemId}`, JSON.stringify(updatedOrders));
+      } catch (e) {}
+      dispatch(fetchAdminOrders());
+    }
+  };
+
+  // Clear all local test orders from this device
+  const handleClearAllOrders = () => {
+    if (window.confirm('Clear all test/completed orders stored on this device?')) {
+      try {
+        const currentSystemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
+        localStorage.setItem(`orders_${currentSystemId}`, JSON.stringify([]));
+      } catch (e) {}
+      dispatch(fetchAdminOrders());
+    }
   };
 
   // Download System Sales & Order Data as JSON
@@ -159,6 +183,16 @@ export default function AdminDashboard() {
             <span>Export CSV</span>
           </button>
 
+          {/* Clear Test Orders */}
+          <button
+            onClick={handleClearAllOrders}
+            className="flex items-center space-x-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-2 rounded-xl text-xs font-bold transition-all"
+            title="Clear test orders stored on this device"
+          >
+            <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+            <span>Clear Queue</span>
+          </button>
+
           <button
             onClick={handleManualRefresh}
             className="flex items-center space-x-2 bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold transition-all shadow-2xs"
@@ -241,15 +275,24 @@ export default function AdminDashboard() {
           {filteredOrders.map((order) => (
             <div
               key={order._id || order.orderNumber}
-              className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+              className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4 relative group"
             >
               
               {/* Card Header */}
               <div className="flex items-start justify-between border-b border-slate-100 pb-3">
                 <div>
-                  <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                    {order.customer?.orderType || 'Dine-In'}
-                  </span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                      {order.customer?.orderType || 'Dine-In'}
+                    </span>
+                    <button
+                      onClick={() => handleDeleteOrder(order)}
+                      className="text-slate-300 hover:text-rose-600 p-1 rounded-lg hover:bg-rose-50 transition-all"
+                      title="Delete this order"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                   <h3 className="text-lg font-black text-slate-900 mt-1">Order #{order.orderNumber}</h3>
                   <span className="text-[11px] text-slate-400 font-medium block">
                     {new Date(order.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
