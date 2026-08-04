@@ -42,31 +42,33 @@ export default function CheckoutModal() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const getSanitizedCustomer = () => {
+    return {
+      name: formData.name.trim() || 'Walk-in Customer',
+      phone: formData.phone.trim() || 'N/A',
+      tableOrAddress: formData.tableOrAddress.trim() || (formData.orderType === 'Dine-In' ? 'Table 4' : 'Counter Pickup'),
+      orderType: formData.orderType || 'Dine-In'
+    };
+  };
+
   const handleHoldOrder = () => {
-    if (!formData.name || !formData.phone || !formData.tableOrAddress) {
-      setErrorMsg('Please enter customer details (Name, Phone, Table) before holding order.');
-      return;
-    }
-    dispatch(holdCurrentCart({ customer: formData, totalAmount: cartTotal }));
+    const sanitizedCustomer = getSanitizedCustomer();
+    dispatch(holdCurrentCart({ customer: sanitizedCustomer, totalAmount: cartTotal }));
     dispatch(setCheckoutOpen(false));
-    alert(`Order for ${formData.name} (${formData.tableOrAddress}) has been PLACED ON HOLD ⏸️.\n\nYou can now take the next customer's order! Resume anytime from "Held Orders".`);
+    alert(`Order for ${sanitizedCustomer.name} (${sanitizedCustomer.tableOrAddress}) has been PLACED ON HOLD ⏸️.\n\nYou can now take the next customer's order! Resume anytime from "Held Orders".`);
   };
 
   const handlePayAndOrder = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-
-    if (!formData.name || !formData.phone || !formData.tableOrAddress) {
-      setErrorMsg('Please fill in your Name, Phone Number, and Table/Address.');
-      return;
-    }
-
     setIsProcessing(true);
+
+    const sanitizedCustomer = getSanitizedCustomer();
 
     try {
       // 1. Create Order Payload
       const orderPayload = {
-        customer: formData,
+        customer: sanitizedCustomer,
         items: cartItems.map(item => ({
           menuItemId: item.menuItemId,
           name: item.name,
@@ -274,17 +276,16 @@ export default function CheckoutModal() {
               </div>
             </div>
 
-            {/* Customer Name & Phone Input Grid */}
+            {/* Customer Name & Phone Input Grid (BOTH OPTIONAL) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1">
-                  Full Name *
+                  Full Name <span className="text-slate-400 font-semibold">(Optional)</span>
                 </label>
                 <input
                   type="text"
                   name="name"
-                  required
-                  placeholder="e.g. Rahul Sharma"
+                  placeholder="e.g. Walk-in Customer"
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-900 focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none"
@@ -293,13 +294,12 @@ export default function CheckoutModal() {
 
               <div>
                 <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1">
-                  Mobile Number *
+                  Mobile Number <span className="text-slate-400 font-semibold">(Optional)</span>
                 </label>
                 <input
                   type="tel"
                   name="phone"
-                  required
-                  placeholder="10-digit phone"
+                  placeholder="e.g. Phone (Optional)"
                   value={formData.phone}
                   onChange={handleInputChange}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-900 focus:bg-white focus:border-rose-500 focus:ring-2 focus:ring-rose-100 outline-none"
