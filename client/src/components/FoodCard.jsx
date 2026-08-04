@@ -2,36 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartSlice';
 import SizeSelectorModal from './SizeSelectorModal';
-import { Dumbbell, Plus, ShieldCheck, Tag } from 'lucide-react';
-
-const categoryFallbackImages = {
-  'Gym Guyz': 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop&q=80',
-  'Momos & Rolls': 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=500&auto=format&fit=crop&q=80',
-  'Pizza Single Topping': 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80',
-  'Pizza Veg Double Topping': 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500&auto=format&fit=crop&q=80',
-  'Kidz Pizza': 'https://images.unsplash.com/photo-1573821663912-569905455b1c?w=500&auto=format&fit=crop&q=80',
-  'Pizza Veg-1': 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&auto=format&fit=crop&q=80',
-  'Pizza Veg-2': 'https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=500&auto=format&fit=crop&q=80',
-  'Pizza Veg-3': 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=500&auto=format&fit=crop&q=80',
-  'Burgers': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80',
-  'Sandwich': 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80',
-  'Pasta': 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop&q=80',
-  'Fries': 'https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&auto=format&fit=crop&q=80',
-  'Wraps': 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80',
-  'Shakes': 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80',
-  'Hot Dessert': 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&auto=format&fit=crop&q=80',
-  'Mocktails': 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80',
-  'Cold Desserts': 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop&q=80',
-  'Breads': 'https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80',
-  'Beverages': 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=500&auto=format&fit=crop&q=80'
-};
-
-const defaultFallback = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80';
+import { Dumbbell, Plus, ShieldCheck, Tag, Sparkles } from 'lucide-react';
 
 export default function FoodCard({ item }) {
   const dispatch = useDispatch();
   const [isSizeModalOpen, setIsSizeModalOpen] = useState(false);
-  const [imgSrc, setImgSrc] = useState(item.image || categoryFallbackImages[item.category] || defaultFallback);
 
   const isGymSection = item.category === 'Gym Guyz' || item.isHealthFocused;
 
@@ -56,81 +31,71 @@ export default function FoodCard({ item }) {
     ? item.sizes[0].price
     : item.price;
 
-  const handleImageError = () => {
-    const categoryFallback = categoryFallbackImages[item.category] || defaultFallback;
-    if (imgSrc !== categoryFallback) {
-      setImgSrc(categoryFallback);
-    } else if (imgSrc !== defaultFallback) {
-      setImgSrc(defaultFallback);
-    }
-  };
-
   return (
     <>
-      <div className={`group bg-white rounded-3xl overflow-hidden border transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 ${
+      <div className={`group bg-white rounded-3xl p-6 border transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 hover:shadow-card-hover ${
         isGymSection 
-          ? 'border-emerald-200 hover:border-emerald-400 hover:shadow-card-hover' 
-          : 'border-slate-200/80 hover:border-rose-300 hover:shadow-card-hover'
+          ? 'border-emerald-200 hover:border-emerald-400 bg-gradient-to-b from-emerald-50/30 to-white' 
+          : 'border-slate-200/80 hover:border-rose-300'
       }`}>
         
-        {/* Top Image Container */}
-        <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
-          <img
-            src={imgSrc}
-            alt={item.name}
-            onError={handleImageError}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-
-          {/* Health Badge */}
-          {isGymSection && (
-            <div className="absolute top-3 left-3 bg-emerald-600/95 backdrop-blur-md text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-md flex items-center space-x-1">
-              <Dumbbell className="w-3.5 h-3.5" />
-              <span>Gym Guyz Special</span>
-            </div>
-          )}
-
-          {/* Price Tag */}
-          <div className="absolute bottom-3 right-3 bg-slate-900/90 backdrop-blur-md text-white px-3 py-1 rounded-xl text-sm font-black shadow-md">
-            {item.hasSizes ? `From ₹${displayPrice}` : `₹${displayPrice}`}
-          </div>
-        </div>
-
-        {/* Content Section */}
-        <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-          <div>
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="font-extrabold text-slate-900 text-base group-hover:text-rose-600 transition-colors line-clamp-1">
-                {item.name}
-              </h3>
-              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 uppercase shrink-0">
+        {/* Card Header & Badges */}
+        <div className="space-y-3">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-lg uppercase tracking-wider inline-block ${
+                isGymSection
+                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                  : 'bg-slate-100 text-slate-600 border border-slate-200'
+              }`}>
                 {item.category}
               </span>
+              
+              {isGymSection && (
+                <span className="ml-1.5 text-[10px] font-black px-2.5 py-1 rounded-lg bg-emerald-600 text-white uppercase inline-flex items-center gap-1">
+                  <Dumbbell className="w-3 h-3" />
+                  <span>High Protein</span>
+                </span>
+              )}
             </div>
 
-            <p className="text-xs text-slate-500 font-normal line-clamp-2 mt-1.5 leading-relaxed">
-              {item.description}
-            </p>
-          </div>
-
-          <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
-            <div className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>WYSWYP Price</span>
+            <div className="text-right">
+              <span className="text-xl font-black text-slate-900 block leading-none">
+                ₹{displayPrice}
+              </span>
+              {item.hasSizes && (
+                <span className="text-[10px] text-slate-400 font-bold uppercase">Starting At</span>
+              )}
             </div>
-
-            <button
-              onClick={handleAddClick}
-              className={`flex items-center space-x-1.5 px-4 py-2 rounded-xl font-bold text-xs shadow-xs transition-all active:scale-95 ${
-                isGymSection
-                  ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/20'
-                  : 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-500/20'
-              }`}
-            >
-              <Plus className="w-4 h-4" />
-              <span>{item.hasSizes ? 'Select Size' : 'Add to Order'}</span>
-            </button>
           </div>
+
+          <h3 className="font-extrabold text-slate-900 text-lg group-hover:text-rose-600 transition-colors leading-tight">
+            {item.name}
+          </h3>
+
+          <p className="text-xs text-slate-500 font-medium leading-relaxed line-clamp-3">
+            {item.description || 'Freshly prepared at Pizza House using authentic ingredients.'}
+          </p>
+        </div>
+
+        {/* Footer Action Bar */}
+        <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
+          <div className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>WYSWYP Tax Incl.</span>
+          </div>
+
+          <button
+            onClick={handleAddClick}
+            className={`flex items-center space-x-1.5 px-4 py-2.5 rounded-2xl font-black text-xs shadow-sm transition-all active:scale-95 ${
+              isGymSection
+                ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20'
+                : 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/20'
+            }`}
+          >
+            <Plus className="w-4 h-4" />
+            <span>{item.hasSizes ? 'Select Size' : 'Add to Order'}</span>
+          </button>
         </div>
 
       </div>
