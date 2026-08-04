@@ -34,6 +34,41 @@ export const initialMenu = [
     "isAvailable": true
   },
 
+  // --- MOMOS & ROLLS ---
+  {
+    "_id": "menu-mr-1",
+    "name": "Veg Momos",
+    "category": "Momos & Rolls",
+    "description": "Steamed dumplings filled with finely chopped fresh garden vegetables",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mr-2",
+    "name": "Paneer Momos",
+    "category": "Momos & Rolls",
+    "description": "Succulent momos packed with seasoned paneer stuffing & authentic spicy chutney",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mr-3",
+    "name": "Spring Roll",
+    "category": "Momos & Rolls",
+    "description": "Crispy golden rolls filled with shredded cabbage, carrots & noodles",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
   // --- PIZZA SINGLE TOPPING ---
   {
     "_id": "menu-pst-1",
@@ -111,7 +146,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -122,7 +157,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -281,7 +316,7 @@ export const initialMenu = [
       { "size": "Medium", "price": 390 },
       { "size": "Large", "price": 530 }
     ],
-    "image": "https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -296,7 +331,7 @@ export const initialMenu = [
       { "size": "Medium", "price": 390 },
       { "size": "Large", "price": 530 }
     ],
-    "image": "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -326,7 +361,7 @@ export const initialMenu = [
       { "size": "Medium", "price": 390 },
       { "size": "Large", "price": 530 }
     ],
-    "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -358,7 +393,7 @@ export const initialMenu = [
       { "size": "Medium", "price": 460 },
       { "size": "Large", "price": 600 }
     ],
-    "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -460,7 +495,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 80,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -471,7 +506,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 90,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1607013251379-e6eecfffe234?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -482,7 +517,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -493,7 +528,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1603064752734-4c48eff53d05?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
@@ -528,7 +563,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1628191081676-8f40d4ce6cdd?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -539,7 +574,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 110,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -550,7 +585,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
@@ -585,7 +620,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 110,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -596,7 +631,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1621996346565-e3d5d6281878?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1595295333158-4742f28fbd85?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -607,7 +642,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 130,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
@@ -631,7 +666,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 90,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1630384060421-cb3f1b5b377b?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -642,7 +677,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1585109649139-366815a0d713?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -653,7 +688,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 110,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
@@ -677,7 +712,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -688,7 +723,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -699,7 +734,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 110,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -710,7 +745,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
@@ -734,7 +769,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 80,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -745,7 +780,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 80,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -756,7 +791,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 90,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -778,7 +813,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -789,7 +824,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -811,7 +846,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -822,7 +857,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 110,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -833,7 +868,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -844,7 +879,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1546173159-315724a31696?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
@@ -881,7 +916,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 90,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -892,7 +927,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 90,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1546173159-315724a31696?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -903,7 +938,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -914,7 +949,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 100,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1587888637140-849b25d80ef9?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -951,7 +986,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 50,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -973,7 +1008,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -984,7 +1019,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 120,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
   {
@@ -995,7 +1030,7 @@ export const initialMenu = [
     "isHealthFocused": false,
     "price": 130,
     "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1573140247614-681b4d452440?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
