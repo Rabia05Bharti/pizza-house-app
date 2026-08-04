@@ -51,12 +51,16 @@ export default function AdminDashboard() {
     }
   };
 
-  // Clear all local test orders from this device
+  // Clear all local test orders from this device & reset to fresh brand new state
   const handleClearAllOrders = () => {
-    if (window.confirm('Clear all test/completed orders stored on this device?')) {
+    if (window.confirm('Reset POS & clear all test orders to start fresh?')) {
       try {
-        const currentSystemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
-        localStorage.setItem(`orders_${currentSystemId}`, JSON.stringify([]));
+        Object.keys(localStorage).forEach(key => {
+          if (key.startsWith('orders_')) {
+            localStorage.removeItem(key);
+          }
+        });
+        localStorage.setItem(`orders_${systemId}`, JSON.stringify([]));
       } catch (e) {}
       dispatch(fetchAdminOrders());
     }
