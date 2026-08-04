@@ -34,6 +34,38 @@ export const initialMenu = [
     "isAvailable": true
   },
 
+  // --- MOMOS & ROLLS ---
+  {
+    "_id": "menu-mr-1",
+    "name": "Veg Momos",
+    "category": "Momos & Rolls",
+    "description": "Steamed dumplings filled with finely chopped fresh garden vegetables and spicy chutney",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mr-2",
+    "name": "Paneer Momos",
+    "category": "Momos & Rolls",
+    "description": "Succulent momos packed with seasoned paneer stuffing & authentic spicy chutney",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-mr-3",
+    "name": "Spring Roll",
+    "category": "Momos & Rolls",
+    "description": "Crispy golden rolls filled with shredded cabbage, carrots & noodles",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "isAvailable": true
+  },
+
   // --- PIZZA SINGLE TOPPING ---
   {
     "_id": "menu-pst-1",
