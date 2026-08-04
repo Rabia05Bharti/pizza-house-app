@@ -34,41 +34,6 @@ export const initialMenu = [
     "isAvailable": true
   },
 
-  // --- MOMOS & ROLLS ---
-  {
-    "_id": "menu-mr-1",
-    "name": "Veg Momos",
-    "category": "Momos & Rolls",
-    "description": "Steamed dumplings filled with finely chopped fresh garden vegetables",
-    "isHealthFocused": false,
-    "price": 80,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-mr-2",
-    "name": "Paneer Momos",
-    "category": "Momos & Rolls",
-    "description": "Succulent momos packed with seasoned paneer stuffing & authentic spicy chutney",
-    "isHealthFocused": false,
-    "price": 100,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-mr-3",
-    "name": "Spring Roll",
-    "category": "Momos & Rolls",
-    "description": "Crispy golden rolls filled with shredded cabbage, carrots & noodles",
-    "isHealthFocused": false,
-    "price": 100,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-
   // --- PIZZA SINGLE TOPPING ---
   {
     "_id": "menu-pst-1",
@@ -532,6 +497,63 @@ export const initialMenu = [
     "isAvailable": true
   },
 
+  // --- WRAPS ---
+  {
+    "_id": "menu-wr-1",
+    "name": "Veggie Wrap",
+    "category": "Wraps",
+    "description": "Tortilla roll packed with fresh crunchy veggies and creamy mayo",
+    "isHealthFocused": false,
+    "price": 80,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-2",
+    "name": "Mix Veg Potato Wrap",
+    "category": "Wraps",
+    "description": "Crispy spiced potato patty wrapped with shredded veggies & mint sauce",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-3",
+    "name": "Cheese Corn Wrap",
+    "category": "Wraps",
+    "description": "Golden sweet corn and melted cheese filling inside toasted wrap",
+    "isHealthFocused": false,
+    "price": 100,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-4",
+    "name": "Paneer Wrap",
+    "category": "Wraps",
+    "description": "Marinated paneer chunks wrapped with onion, capsicum & mayo sauce",
+    "isHealthFocused": false,
+    "price": 110,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+  {
+    "_id": "menu-wr-5",
+    "name": "Makhani Sauce Wrap",
+    "category": "Wraps",
+    "description": "Rich Punjabi makhani gravy paneer wrapped in soft flatbread",
+    "isHealthFocused": false,
+    "price": 120,
+    "hasSizes": false,
+    "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80",
+    "isAvailable": true
+  },
+
   // --- SANDWICH ---
   {
     "_id": "menu-sw-1",
@@ -689,63 +711,6 @@ export const initialMenu = [
     "price": 110,
     "hasSizes": false,
     "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-
-  // --- WRAPS ---
-  {
-    "_id": "menu-wr-1",
-    "name": "Veggie Wrap",
-    "category": "Wraps",
-    "description": "Tortilla roll packed with fresh crunchy veggies and creamy mayo",
-    "isHealthFocused": false,
-    "price": 80,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-wr-2",
-    "name": "Mix Veg Potato Wrap",
-    "category": "Wraps",
-    "description": "Crispy spiced potato patty wrapped with shredded veggies & mint sauce",
-    "isHealthFocused": false,
-    "price": 100,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-wr-3",
-    "name": "Cheese Corn Wrap",
-    "category": "Wraps",
-    "description": "Golden sweet corn and melted cheese filling inside toasted wrap",
-    "isHealthFocused": false,
-    "price": 100,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-wr-4",
-    "name": "Paneer Wrap",
-    "category": "Wraps",
-    "description": "Marinated paneer chunks wrapped with onion, capsicum & mayo sauce",
-    "isHealthFocused": false,
-    "price": 110,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop&q=80",
-    "isAvailable": true
-  },
-  {
-    "_id": "menu-wr-5",
-    "name": "Makhani Sauce Wrap",
-    "category": "Wraps",
-    "description": "Rich Punjabi makhani gravy paneer wrapped in soft flatbread",
-    "isHealthFocused": false,
-    "price": 120,
-    "hasSizes": false,
-    "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80",
     "isAvailable": true
   },
 
