@@ -8,7 +8,30 @@ export const submitOrder = createAsyncThunk(
       const data = await createOrderApi(orderPayload);
       return data.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || 'Failed to initialize order');
+      console.warn('[Order Local POS Mode] Network call failed/timed out, generating local system order:', err);
+      const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
+      const orderNumber = `PH-${Math.floor(100 + Math.random() * 900)}`;
+      const localOrder = {
+        _id: `local_ord_${Date.now()}`,
+        orderNumber,
+        customer: orderPayload.customer,
+        items: orderPayload.items,
+        totalAmount: orderPayload.totalAmount,
+        paymentStatus: orderPayload.paymentStatus || 'Pending',
+        paymentDetails: orderPayload.paymentDetails || { paymentMethod: 'Cash / Local POS' },
+        orderStatus: 'Received',
+        createdAt: new Date().toISOString(),
+        isLocalFallback: true
+      };
+
+      // Store in local system storage so Admin POS & downloads access it
+      try {
+        const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
+        systemOrders.unshift(localOrder);
+        localStorage.setItem(`orders_${systemId}`, JSON.stringify(systemOrders));
+      } catch (e) {}
+
+      return localOrder;
     }
   }
 );
@@ -18,9 +41,19 @@ export const fetchAdminOrders = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchOrdersApi();
-      return data.data;
+      const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
+      const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
+      const combined = [...(data.data || [])];
+      systemOrders.forEach(lo => {
+        if (!combined.some(o => o.orderNumber === lo.orderNumber)) {
+          combined.unshift(lo);
+        }
+      });
+      return combined;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || 'Failed to load orders');
+      const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
+      const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
+      return systemOrders;
     }
   }
 );
@@ -60,6 +93,7 @@ const orderSlice = createSlice({
     },
     clearCurrentOrder: (state) => {
       state.currentOrder = null;
+      state.confirmedOrder = null;
     }
   },
   extraReducers: (builder) => {
@@ -70,7 +104,7 @@ const orderSlice = createSlice({
       })
       .addCase(submitOrder.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentOrder = action.payload;
+        state.confirmedOrder = action.payload;
       })
       .addCase(submitOrder.rejected, (state, action) => {
         state.loading = false;
@@ -78,12 +112,6 @@ const orderSlice = createSlice({
       })
       .addCase(fetchAdminOrders.fulfilled, (state, action) => {
         state.adminOrders = action.payload;
-      })
-      .addCase(updateOrderStatusThunk.fulfilled, (state, action) => {
-        const index = state.adminOrders.findIndex(o => o._id === action.payload._id);
-        if (index !== -1) {
-          state.adminOrders[index] = action.payload;
-        }
       });
   }
 });
