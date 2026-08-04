@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSuccessModalOpen, clearCurrentOrder } from '../redux/orderSlice';
 import { CheckCircle2, ShieldCheck, Printer, UtensilsCrossed, X, Download, HardDrive } from 'lucide-react';
@@ -7,24 +7,6 @@ export default function PaymentSuccessModal() {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.order.isSuccessModalOpen);
   const confirmedOrder = useSelector((state) => state.order.confirmedOrder);
-
-  // Automatically save order to local system storage for system-specific offline/isolated data retention
-  useEffect(() => {
-    if (confirmedOrder) {
-      try {
-        const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
-        const existingLocalOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
-        existingLocalOrders.unshift({
-          ...confirmedOrder,
-          systemId,
-          savedAt: new Date().toISOString()
-        });
-        localStorage.setItem(`orders_${systemId}`, JSON.stringify(existingLocalOrders));
-      } catch (e) {
-        console.error('Failed to save to local system storage:', e);
-      }
-    }
-  }, [confirmedOrder]);
 
   if (!isOpen || !confirmedOrder) return null;
 
@@ -44,15 +26,15 @@ Date         : ${new Date(confirmedOrder.createdAt || Date.now()).toLocaleString
 System ID    : ${localStorage.getItem('pizza_house_system_id') || 'System-1'}
 ----------------------------------------
 CUSTOMER DETAILS:
-Name     : ${confirmedOrder.customer.name}
-Phone    : ${confirmedOrder.customer.phone}
-Table/Add: ${confirmedOrder.customer.tableOrAddress}
-Type     : ${confirmedOrder.customer.orderType}
+Name     : ${confirmedOrder.customer?.name || 'Walk-in Customer'}
+Phone    : ${confirmedOrder.customer?.phone || 'N/A'}
+Table/Add: ${confirmedOrder.customer?.tableOrAddress || 'Counter'}
+Type     : ${confirmedOrder.customer?.orderType || 'Dine-In'}
 ----------------------------------------
 ORDERED ITEMS:
-${confirmedOrder.items.map(item => `- ${item.quantity}x ${item.name} ${item.selectedSize ? `(${item.selectedSize})` : ''} @ ₹${item.unitPrice} = ₹${item.totalItemPrice || (item.unitPrice * item.quantity)}`).join('\n')}
+${confirmedOrder.items?.map(item => `- ${item.quantity}x ${item.name} ${item.selectedSize ? `(${item.selectedSize})` : ''} @ ₹${item.unitPrice} = ₹${item.totalItemPrice || (item.unitPrice * item.quantity)}`).join('\n')}
 ----------------------------------------
-Payment Method : ${confirmedOrder.paymentDetails?.paymentMethod || 'Cash / QR'}
+Payment Method : ${confirmedOrder.paymentDetails?.paymentMethod || confirmedOrder.paymentStatus || 'Cash / QR'}
 Payment Status : ${confirmedOrder.paymentStatus || 'Confirmed'}
 Transaction Ref: ${confirmedOrder.paymentDetails?.razorpayPaymentId || `PAY-${Date.now()}`}
 GST & Taxes    : ₹0 (WYSWYP Included)
@@ -75,26 +57,46 @@ TOTAL PAID     : ₹${confirmedOrder.totalAmount}
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn overflow-y-auto print:p-0 print:bg-white print:static">
+    <div id="print-receipt-wrapper" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn overflow-y-auto print:p-0 print:bg-white print:static">
       
-      {/* Thermal Receipt Print Styles */}
+      {/* Thermal Receipt Print Styles (Single 80mm Page Output) */}
       <style>{`
         @media print {
-          body * {
-            visibility: hidden;
+          @page {
+            size: 80mm auto;
+            margin: 0;
           }
-          #print-receipt-area, #print-receipt-area * {
-            visibility: visible;
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #fff !important;
+            height: auto !important;
+            overflow: visible !important;
+          }
+          body > *:not(#print-receipt-wrapper) {
+            display: none !important;
+          }
+          #print-receipt-wrapper {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 80mm !important;
+            max-width: 80mm !important;
+            margin: 0 !important;
+            padding: 8px !important;
+            background: #fff !important;
+            color: #000 !important;
+            box-shadow: none !important;
+            border: none !important;
           }
           #print-receipt-area {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 80mm;
-            padding: 10px;
-            font-family: monospace;
-            color: #000;
-            background: #fff;
+            width: 100% !important;
+            max-width: 100% !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #fff !important;
           }
           .no-print {
             display: none !important;
@@ -131,20 +133,20 @@ TOTAL PAID     : ₹${confirmedOrder.totalAmount}
           <div className="flex justify-between border-b border-slate-200 pb-3">
             <div>
               <span className="text-slate-400 block text-[10px] uppercase font-bold">Customer</span>
-              <span className="font-extrabold text-slate-900">{confirmedOrder.customer.name}</span>
-              <span className="text-slate-500 block text-[11px]">{confirmedOrder.customer.phone}</span>
+              <span className="font-extrabold text-slate-900">{confirmedOrder.customer?.name || 'Walk-in Customer'}</span>
+              <span className="text-slate-500 block text-[11px]">{confirmedOrder.customer?.phone || 'N/A'}</span>
             </div>
             <div className="text-right">
               <span className="text-slate-400 block text-[10px] uppercase font-bold">Location / Type</span>
-              <span className="font-extrabold text-rose-600">{confirmedOrder.customer.tableOrAddress}</span>
-              <span className="text-slate-500 block text-[11px]">{confirmedOrder.customer.orderType}</span>
+              <span className="font-extrabold text-rose-600">{confirmedOrder.customer?.tableOrAddress || 'Counter'}</span>
+              <span className="text-slate-500 block text-[11px]">{confirmedOrder.customer?.orderType || 'Dine-In'}</span>
             </div>
           </div>
 
           {/* Items Table */}
           <div className="space-y-2">
             <span className="text-slate-400 text-[10px] uppercase font-extrabold block">Ordered Items</span>
-            {confirmedOrder.items.map((item, idx) => (
+            {confirmedOrder.items?.map((item, idx) => (
               <div key={idx} className="flex justify-between items-center text-slate-800">
                 <div>
                   <span className="font-bold">{item.name}</span>

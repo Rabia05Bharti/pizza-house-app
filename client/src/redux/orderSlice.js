@@ -4,12 +4,24 @@ import { createOrderApi, fetchOrdersApi, updateOrderStatusApi } from '../service
 export const submitOrder = createAsyncThunk(
   'order/submitOrder',
   async (orderPayload, { rejectWithValue }) => {
+    const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
+    
     try {
       const data = await createOrderApi(orderPayload);
-      return data.data;
+      const serverOrder = data.data;
+
+      // Save server order locally without duplicating
+      try {
+        const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
+        if (serverOrder && !systemOrders.some(o => o.orderNumber === serverOrder.orderNumber || o._id === serverOrder._id)) {
+          systemOrders.unshift(serverOrder);
+          localStorage.setItem(`orders_${systemId}`, JSON.stringify(systemOrders));
+        }
+      } catch (e) {}
+
+      return serverOrder;
     } catch (err) {
       console.warn('[Order Local POS Mode] Network call failed/timed out, generating local system order:', err);
-      const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
       const orderNumber = `PH-${Math.floor(100 + Math.random() * 900)}`;
       const localOrder = {
         _id: `local_ord_${Date.now()}`,
@@ -24,11 +36,13 @@ export const submitOrder = createAsyncThunk(
         isLocalFallback: true
       };
 
-      // Store in local system storage so Admin POS & downloads access it
+      // Store in local system storage without duplicating
       try {
         const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
-        systemOrders.unshift(localOrder);
-        localStorage.setItem(`orders_${systemId}`, JSON.stringify(systemOrders));
+        if (!systemOrders.some(o => o.orderNumber === localOrder.orderNumber)) {
+          systemOrders.unshift(localOrder);
+          localStorage.setItem(`orders_${systemId}`, JSON.stringify(systemOrders));
+        }
       } catch (e) {}
 
       return localOrder;
@@ -39,21 +53,35 @@ export const submitOrder = createAsyncThunk(
 export const fetchAdminOrders = createAsyncThunk(
   'order/fetchAdminOrders',
   async (_, { rejectWithValue }) => {
+    const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
+    const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
+    const orderMap = new Map();
+
     try {
       const data = await fetchOrdersApi();
-      const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
-      const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
-      const combined = [...(data.data || [])];
-      systemOrders.forEach(lo => {
-        if (!combined.some(o => o.orderNumber === lo.orderNumber)) {
-          combined.unshift(lo);
+      const remoteOrders = data.data || [];
+
+      // First add remote orders to map keyed by orderNumber / _id
+      remoteOrders.forEach(o => {
+        const key = String(o.orderNumber || o._id);
+        if (key) orderMap.set(key, o);
+      });
+
+      // Then add local system orders only if not already present
+      systemOrders.forEach(o => {
+        const key = String(o.orderNumber || o._id);
+        if (key && !orderMap.has(key)) {
+          orderMap.set(key, o);
         }
       });
-      return combined;
+
+      return Array.from(orderMap.values());
     } catch (err) {
-      const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
-      const systemOrders = JSON.parse(localStorage.getItem(`orders_${systemId}`) || '[]');
-      return systemOrders;
+      systemOrders.forEach(o => {
+        const key = String(o.orderNumber || o._id);
+        if (key) orderMap.set(key, o);
+      });
+      return Array.from(orderMap.values());
     }
   }
 );
