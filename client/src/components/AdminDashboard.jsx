@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAdminOrders, updateOrderStatusThunk } from '../redux/orderSlice';
-import { RefreshCw, CheckCircle, Clock, ChefHat, PackageCheck, AlertCircle, Phone, MapPin, IndianRupee, Download, HardDrive, Settings, Printer, Trash2 } from 'lucide-react';
+import { RefreshCw, CheckCircle, Clock, ChefHat, PackageCheck, AlertCircle, Phone, MapPin, IndianRupee, Download, HardDrive, Settings, Printer, Trash2, Zap } from 'lucide-react';
+import { printThermalReceipt } from '../utils/thermalPrinter';
 
 export default function AdminDashboard() {
   const dispatch = useDispatch();
@@ -352,18 +353,41 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Card Footer */}
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] text-slate-400 font-bold block uppercase">Payment Status</span>
-                  <span className={`text-xs font-black ${order.paymentStatus === 'Paid' || order.paymentStatus === 'Cash' ? 'text-emerald-600' : 'text-amber-600'}`}>
-                    {order.paymentStatus === 'Cash' ? 'Cash / Counter Pay' : order.paymentStatus || 'Paid'}
-                  </span>
+              {/* Card Footer with Thermal Print Actions */}
+              <div className="pt-3 border-t border-slate-100 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] text-slate-400 font-bold block uppercase">Payment Status</span>
+                    <span className={`text-xs font-black ${order.paymentStatus === 'Paid' || order.paymentStatus === 'Cash' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                      {order.paymentStatus === 'Cash' ? 'Cash / Counter Pay' : order.paymentStatus || 'Paid'}
+                    </span>
+                  </div>
+
+                  <div className="text-right">
+                    <span className="text-[10px] text-slate-400 font-bold block uppercase">Total WYSWYP</span>
+                    <span className="text-lg font-black text-rose-600">₹{order.totalAmount}</span>
+                  </div>
                 </div>
 
-                <div className="text-right">
-                  <span className="text-[10px] text-slate-400 font-bold block uppercase">Total WYSWYP</span>
-                  <span className="text-lg font-black text-rose-600">₹{order.totalAmount}</span>
+                {/* Champ Thermal Printer Buttons */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <button
+                    onClick={() => printThermalReceipt(order, 'KOT')}
+                    className="flex items-center justify-center space-x-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 py-2 rounded-xl text-xs font-bold transition-all shadow-2xs"
+                    title="Print Kitchen Order Ticket (KOT) to Champ Thermal Printer"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Print KOT 👨‍🍳</span>
+                  </button>
+
+                  <button
+                    onClick={() => printThermalReceipt(order, 'BILL')}
+                    className="flex items-center justify-center space-x-1.5 bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-xs"
+                    title="Print Bill Receipt to Champ Thermal Printer"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Print Bill 🧾</span>
+                  </button>
                 </div>
               </div>
 
