@@ -1,122 +1,119 @@
 /**
  * Champ / ESC/POS Thermal Receipt Printing Utility
- * Supports 80mm & 58mm POS receipt paper rolls, Kitchen Order Tickets (KOT),
- * and direct browser thermal printing for Champ, TVS, Epson & Xprinter devices.
+ * Optimized for Champ 58mm & 80mm Cafe Thermal Receipt Printers
  */
 
-// Helper to format string with exact column width for 80mm (48 chars) / 58mm (32 chars)
-export function formatReceiptLine(leftText, rightText, width = 42) {
+// Helper to format a single line with exact column width (default 34 chars for 58mm/80mm POS paper)
+export function formatReceiptLine(leftText, rightText, width = 34) {
   const left = String(leftText || '');
   const right = String(rightText || '');
-  const spaces = width - left.length - right.length;
-  if (spaces <= 0) {
-    return left.slice(0, width - right.length - 1) + ' ' + right;
+  const availableSpace = width - right.length;
+  
+  if (left.length >= availableSpace) {
+    const trimmedLeft = left.slice(0, availableSpace - 1);
+    return trimmedLeft + ' ' + right;
   }
-  return left + ' '.repeat(spaces) + right;
+  
+  const spaces = width - left.length - right.length;
+  return left + ' '.repeat(Math.max(1, spaces)) + right;
 }
 
 // Generate Raw Plaintext Receipt for Champ Thermal Printer
-export function generateThermalReceiptText(order, type = 'BILL') {
-  const isKOT = type === 'KOT';
-  const width = 42; // standard 80mm thermal receipt line length
+export function generateThermalReceiptText(order) {
+  const width = 34; // Fits 58mm & 80mm Champ paper rolls cleanly without text wrapping
   const dateStr = new Date(order.createdAt || Date.now()).toLocaleString();
   const systemId = localStorage.getItem('pizza_house_system_id') || 'System-1';
 
   let text = '';
   
   // Header
-  text += '==========================================\n';
-  text += isKOT ? '          KITCHEN ORDER TICKET (KOT)      \n' : '               PIZZA HOUSE POS            \n';
-  text += '         Contact: 7559752165 | WYSWYP      \n';
-  text += '==========================================\n';
+  text += '==================================\n';
+  text += '         PIZZA HOUSE POS          \n';
+  text += '       Contact: 7559752165        \n';
+  text += '==================================\n';
 
-  text += formatReceiptLine(`Order #: ${order.orderNumber}`, `Type: ${order.customer?.orderType || 'Dine-In'}`) + '\n';
-  text += formatReceiptLine(`Date: ${dateStr.slice(0, 16)}`, `Device: ${systemId}`) + '\n';
-  text += '------------------------------------------\n';
-  text += formatReceiptLine(`Cust: ${order.customer?.name || 'Walk-in'}`, `Loc: ${order.customer?.tableOrAddress || 'Table'}`) + '\n';
-  text += formatReceiptLine(`Phone: ${order.customer?.phone || 'N/A'}`, `Pay: ${order.paymentStatus || 'Cash'}`) + '\n';
-  text += '------------------------------------------\n';
+  text += formatReceiptLine(`Order #: ${order.orderNumber}`, `Type: ${order.customer?.orderType || 'Dine-In'}`, width) + '\n';
+  text += formatReceiptLine(`Date: ${dateStr.slice(0, 16)}`, `Dev: ${systemId}`, width) + '\n';
+  text += '----------------------------------\n';
+  text += formatReceiptLine(`Cust: ${order.customer?.name || 'Walk-in'}`, `Loc: ${order.customer?.tableOrAddress || 'Table'}`, width) + '\n';
+  text += formatReceiptLine(`Phone: ${order.customer?.phone || 'N/A'}`, `Pay: ${order.paymentStatus || 'Cash'}`, width) + '\n';
+  text += '----------------------------------\n';
 
-  text += formatReceiptLine('QTY ITEM [SIZE]', 'AMOUNT') + '\n';
-  text += '------------------------------------------\n';
+  text += formatReceiptLine('QTY ITEM [SIZE]', 'AMOUNT', width) + '\n';
+  text += '----------------------------------\n';
 
+  let totalQty = 0;
   if (order.items && order.items.length > 0) {
     order.items.forEach(item => {
-      const itemTitle = `${item.quantity}x ${item.name}${item.selectedSize ? ` (${item.selectedSize})` : ''}`;
-      const itemPrice = `Rs.${item.totalItemPrice || (item.unitPrice * item.quantity)}`;
-      text += formatReceiptLine(itemTitle, itemPrice) + '\n';
+      const qty = item.quantity || 1;
+      totalQty += qty;
+      const itemTitle = `${qty}x ${item.name}${item.selectedSize ? ` (${item.selectedSize})` : ''}`;
+      const itemPrice = `Rs.${item.totalItemPrice || (item.unitPrice * qty)}`;
+      text += formatReceiptLine(itemTitle, itemPrice, width) + '\n';
       if (item.extraToppings && item.extraToppings.length > 0) {
-        text += `   + Toppings: ${item.extraToppings.join(', ')}\n`;
+        text += ` + Top: ${item.extraToppings.join(', ')}\n`;
       }
     });
   }
 
-  text += '------------------------------------------\n';
-  if (!isKOT) {
-    text += formatReceiptLine('SUBTOTAL:', `Rs.${order.totalAmount}`) + '\n';
-    text += formatReceiptLine('TAX & GST (WYSWYP):', 'Rs.0 (Included)') + '\n';
-    text += '==========================================\n';
-    text += formatReceiptLine('TOTAL PAYABLE:', `Rs.${order.totalAmount}`) + '\n';
-    text += '==========================================\n';
-    text += '        Thank you! Visit Us Again!        \n';
-  } else {
-    text += '        KITCHEN COPY - PREPARE FRESH      \n';
-    text += '==========================================\n';
-  }
+  text += '----------------------------------\n';
+  text += formatReceiptLine('TOTAL ITEMS:', `${totalQty}`, width) + '\n';
+  text += '==================================\n';
+  text += formatReceiptLine('TOTAL COST:', `Rs.${order.totalAmount}`, width) + '\n';
+  text += '==================================\n';
+  text += '     Thank You! Visit Again!      \n';
+  text += '==================================\n\n\n\n';
 
-  text += '\n\n\n'; // Feed paper
   return text;
 }
 
-// Browser Thermal Print trigger using strict 80mm monochrome POS paper styling
-export function printThermalReceipt(order, type = 'BILL') {
-  const printWindow = window.open('', '_blank', 'width=400,height=600');
+// Browser Thermal Print trigger using strict POS paper styling
+export function printThermalReceipt(order) {
+  const printWindow = window.open('', '_blank', 'width=380,height=600');
   if (!printWindow) {
-    // Fallback to window.print if popup blocked
     window.print();
     return;
   }
 
-  const receiptContent = generateThermalReceiptText(order, type);
+  const receiptContent = generateThermalReceiptText(order);
 
   printWindow.document.write(`
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Champ Thermal Print - Order #${order.orderNumber}</title>
+        <title>Receipt #${order.orderNumber}</title>
         <style>
           @page {
-            size: 80mm auto;
+            size: 58mm auto;
             margin: 0;
+          }
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #fff !important;
+            color: #000 !important;
           }
           body {
             font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            font-weight: bold;
-            line-height: 1.2;
-            width: 76mm;
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1.25;
+            width: 54mm;
             margin: 0 auto;
-            padding: 5px 2px;
-            color: #000;
-            background: #fff;
-            white-space: pre-wrap;
+            padding: 4px 1px;
+            white-space: pre;
             word-break: break-all;
-          }
-          .receipt-container {
-            width: 100%;
           }
         </style>
       </head>
-      <body>
-        <div class="receipt-container">${receiptContent}</div>
-        <script>
-          window.onload = function() {
-            window.focus();
-            window.print();
-            setTimeout(function() { window.close(); }, 800);
-          };
-        </script>
-      </body>
+      <body>${receiptContent}</body>
+      <script>
+        window.onload = function() {
+          window.focus();
+          window.print();
+          setTimeout(function() { window.close(); }, 600);
+        };
+      </script>
     </html>
   `);
   printWindow.document.close();

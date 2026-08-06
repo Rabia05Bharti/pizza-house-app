@@ -184,30 +184,20 @@ TOTAL PAID     : ₹${confirmedOrder.totalAmount}
           
           {/* Dedicated Champ / POS Thermal Print Button */}
           <button
-            onClick={() => printThermalReceipt(confirmedOrder, 'BILL')}
+            onClick={() => printThermalReceipt(confirmedOrder)}
             className="w-full flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-2xl font-black text-xs transition-all shadow-md shadow-slate-900/20"
           >
             <Printer className="w-4 h-4 text-emerald-400" />
-            <span>Print Champ Thermal Receipt (80mm/58mm POS)</span>
+            <span>Print Thermal Receipt (Champ POS)</span>
           </button>
 
-          <div className="flex space-x-2">
-            <button
-              onClick={() => printThermalReceipt(confirmedOrder, 'KOT')}
-              className="flex-1 flex items-center justify-center space-x-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 py-2.5 rounded-2xl font-bold text-xs transition-all border border-amber-200"
-            >
-              <Zap className="w-3.5 h-3.5 text-amber-600" />
-              <span>Print KOT (Kitchen)</span>
-            </button>
-
-            <button
-              onClick={handleDownloadReceipt}
-              className="flex-1 flex items-center justify-center space-x-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 py-2.5 rounded-2xl font-bold text-xs transition-all border border-emerald-200"
-            >
-              <Download className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Save Receipt 💾</span>
-            </button>
-          </div>
+          <button
+            onClick={handleDownloadReceipt}
+            className="w-full flex items-center justify-center space-x-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 py-3 rounded-2xl font-bold text-xs transition-all border border-emerald-200"
+          >
+            <Download className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Save Text Receipt 💾</span>
+          </button>
 
           <button
             onClick={handleClose}
